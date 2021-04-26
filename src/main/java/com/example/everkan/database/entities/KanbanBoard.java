@@ -29,6 +29,8 @@ public class KanbanBoard {
     @OneToMany(
             cascade = CascadeType.ALL
     )
+    @JoinColumn(name = "boardId")
+    @OrderBy(value = "index")
     private List<KanbanColumn> columns = new ArrayList<>();
 
     public KanbanBoard(List<KanbanColumn> columns) {
@@ -37,10 +39,15 @@ public class KanbanBoard {
 
     public static KanbanBoard creatDefaultBoard() {
         KanbanCard kanbanCard1 = new KanbanCard("KanbanCard 1", "");
+        KanbanCard kanbanCard2 = new KanbanCard("KanbanCard 2", "");
+        KanbanCard kanbanCard3 = new KanbanCard("KanbanCard 3", "");
         KanbanColumn column1 = new KanbanColumn("To Do");
         KanbanColumn column2 = new KanbanColumn("In Progress");
         KanbanColumn column3 = new KanbanColumn("Done");
-        column1.addTask(kanbanCard1);
+        column1.addCard(kanbanCard1);
+        column1.addCard(kanbanCard2);
+        column1.addCard(kanbanCard3);
+
 
         KanbanBoard board = new KanbanBoard();
         board.addColumn(column1);
@@ -51,6 +58,16 @@ public class KanbanBoard {
     }
 
     public void addColumn(KanbanColumn column) {
+        int currentIndex = columns.size();
+        column.setIndex(currentIndex);
         columns.add(column);
     }
+
+    public KanbanColumn getColumnById(Long columnID) {
+        return columns.stream()
+                .filter(col -> col.getId().equals(columnID))
+                .findAny()
+                .orElse(null);
+    }
+
 }

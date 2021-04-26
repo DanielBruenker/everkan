@@ -16,18 +16,20 @@ import javax.persistence.*;
 public class KanbanCard {
 
     @SequenceGenerator(
-            name = "task_sequence",
-            sequenceName = "task_sequence",
+            name = "kanban_card_sequence",
+            sequenceName = "kanban_card_sequence",
             allocationSize = 1
     )
     @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "task_sequence"
+            generator = "kanban_card_sequence"
     )
     private Long id;
     private String title;
     private String description;
+    private Integer index;
+    private Long columnId;
 
     public KanbanCard(String title, String description) {
         this.title = title;

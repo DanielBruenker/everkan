@@ -8,12 +8,11 @@ const App = () => {
 
   const [project, setProject] = useState(null);
 
-
   useEffect(() => {
     fetch(
       `http://localhost:8080/api/v1/project`,
       {
-        method: "GET",
+        method: 'GET'
       }
     )
       .then(res => res.json())
@@ -26,7 +25,7 @@ const App = () => {
 
   const renderBoard = () => {
     // @ts-ignore
-    return ((project) ? <KanbanBoard board={project.board} /> : null);
+    return ((project) ? <KanbanBoard boardID={1}/> : null);
   };
 
   return (

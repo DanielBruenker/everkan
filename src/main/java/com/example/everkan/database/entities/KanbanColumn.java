@@ -29,18 +29,25 @@ public class KanbanColumn {
     )
     private Long id;
     private String title;
+    private Integer index;
 
     @OneToMany(
             cascade = CascadeType.ALL
     )
+    @JoinColumn(name = "columnId")
+    @OrderBy(value = "index")
     private List<KanbanCard> cards = new ArrayList<>();
+
+    private Long boardId;
 
     public KanbanColumn(String title) {
         this.title = title;
     }
 
-    public void addTask(KanbanCard kanbanCard) {
-        cards.add(kanbanCard);
+    public void addCard(KanbanCard card) {
+        int index = cards.size();
+        card.setIndex(index);
+        cards.add(card);
     }
 
 }
