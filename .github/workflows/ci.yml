@@ -16,5 +16,5 @@ jobs:
       - name: Grant execute perrmission for mvn
         run: chmod +x mvn
         
-      - name: Test with Gradle
+      - name: Test with Maven
         run: ./mvn test
