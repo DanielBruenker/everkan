@@ -33,7 +33,7 @@ public class KanbanColumnService {
             card.setIndex(cardRequest.getIndex());
             card.setTitle(cardRequest.getTitle());
             card.setDescription(cardRequest.getDescription());
-            card.setColumnId(request.getId());
+            card.setColumn(column);
         }
         return kanbanColumnRepository.save(column);
     }
@@ -53,6 +53,5 @@ public class KanbanColumnService {
                         () -> new IllegalStateException("Column not found!")
                 );
     }
-
 
 }

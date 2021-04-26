@@ -20,7 +20,7 @@ public class ProjectController {
     }
 
     @PostMapping
-    public Project postProject(@RequestBody ProjectRequest request) {
+    public Project createProject(@RequestBody ProjectRequest request) {
         return projectService.createProject(request);
     }
 

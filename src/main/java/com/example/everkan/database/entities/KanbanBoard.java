@@ -1,5 +1,6 @@
 package com.example.everkan.database.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class KanbanBoard {
 
     @SequenceGenerator(
@@ -27,9 +29,9 @@ public class KanbanBoard {
     private Long id;
 
     @OneToMany(
+            mappedBy = "board",
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = "boardId")
     @OrderBy(value = "index")
     private List<KanbanColumn> columns = new ArrayList<>();
 
@@ -38,16 +40,11 @@ public class KanbanBoard {
     }
 
     public static KanbanBoard creatDefaultBoard() {
-        KanbanCard kanbanCard1 = new KanbanCard("KanbanCard 1", "");
-        KanbanCard kanbanCard2 = new KanbanCard("KanbanCard 2", "");
-        KanbanCard kanbanCard3 = new KanbanCard("KanbanCard 3", "");
+        KanbanCard kanbanCard1 = new KanbanCard("Card 1", "");
         KanbanColumn column1 = new KanbanColumn("To Do");
         KanbanColumn column2 = new KanbanColumn("In Progress");
         KanbanColumn column3 = new KanbanColumn("Done");
         column1.addCard(kanbanCard1);
-        column1.addCard(kanbanCard2);
-        column1.addCard(kanbanCard3);
-
 
         KanbanBoard board = new KanbanBoard();
         board.addColumn(column1);
@@ -60,6 +57,7 @@ public class KanbanBoard {
     public void addColumn(KanbanColumn column) {
         int currentIndex = columns.size();
         column.setIndex(currentIndex);
+        column.setBoard(this);
         columns.add(column);
     }
 

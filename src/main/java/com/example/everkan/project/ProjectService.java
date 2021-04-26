@@ -19,7 +19,8 @@ public class ProjectService {
     public Project createProject(ProjectRequest request) {
         Project project = new Project(request.getName());
         projectRepository.save(project);
-        return project;
+        return projectRepository.findById(project.getId()).orElseThrow(
+                () -> new IllegalStateException(""));
     }
 
 }

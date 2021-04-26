@@ -1,5 +1,6 @@
 package com.example.everkan.database.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,13 +33,16 @@ public class KanbanColumn {
     private Integer index;
 
     @OneToMany(
+            mappedBy = "column",
             cascade = CascadeType.ALL
     )
-    @JoinColumn(name = "columnId")
     @OrderBy(value = "index")
     private List<KanbanCard> cards = new ArrayList<>();
 
-    private Long boardId;
+    @ManyToOne
+    @JoinColumn(name="board_id", nullable=false)
+    @JsonIgnore
+    private KanbanBoard board;
 
     public KanbanColumn(String title) {
         this.title = title;
@@ -47,6 +51,7 @@ public class KanbanColumn {
     public void addCard(KanbanCard card) {
         int index = cards.size();
         card.setIndex(index);
+        card.setColumn(this);
         cards.add(card);
     }
 

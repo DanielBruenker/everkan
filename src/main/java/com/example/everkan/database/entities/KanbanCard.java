@@ -1,5 +1,6 @@
 package com.example.everkan.database.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +30,11 @@ public class KanbanCard {
     private String title;
     private String description;
     private Integer index;
-    private Long columnId;
+
+    @ManyToOne
+    @JoinColumn(name="column_id", nullable=false)
+    @JsonIgnore
+    private KanbanColumn column;
 
     public KanbanCard(String title, String description) {
         this.title = title;
