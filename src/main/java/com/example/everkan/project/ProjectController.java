@@ -8,18 +8,19 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping(path = "api/v1/project")
+@RequestMapping(path = "api/v1")
 @AllArgsConstructor
 public class ProjectController {
 
     private final ProjectService projectService;
 
-    @GetMapping
+    @GetMapping("projects")
     public List<Project> getAllProjects() {
         return projectService.getAllProjects();
     }
 
-    @PostMapping
+
+    @PostMapping("project")
     public Project createProject(@RequestBody ProjectRequest request) {
         return projectService.createProject(request);
     }

@@ -40,7 +40,7 @@ class ProjectControllerTest {
     @Test
     void testGetAllProjectsReturnsExpectedResult() throws Exception {
         // GIVEN
-        String uri = "/api/v1/project";
+        String uri = "/api/v1/projects";
         List<Project> projects = Arrays.asList(
                 new Project("Project 1"),
                 new Project("Project 2"),

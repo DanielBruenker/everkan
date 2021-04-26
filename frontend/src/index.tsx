@@ -10,7 +10,7 @@ const App = () => {
 
   useEffect(() => {
     fetch(
-      `http://localhost:8080/api/v1/project`,
+      `http://localhost:8080/api/v1/projects`,
       {
         method: 'GET'
       }
