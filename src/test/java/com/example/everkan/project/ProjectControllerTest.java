@@ -1,9 +1,7 @@
 package com.example.everkan.project;
 
-import com.example.everkan.database.entities.KanbanBoard;
-import com.example.everkan.database.entities.KanbanCard;
-import com.example.everkan.database.entities.KanbanColumn;
-import com.example.everkan.database.entities.Project;
+import com.example.everkan.appuser.AppUserRepository;
+import com.example.everkan.database.entities.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +10,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -26,11 +26,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class ProjectControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private AppUserRepository appUserRepository;
 
     @Autowired
     private ProjectRepository projectRepository;
@@ -39,13 +43,15 @@ class ProjectControllerTest {
     @WithMockUser("username")
     void testGetAllProjectsReturnsExpectedResult() throws Exception {
         // GIVEN
-        String uri = "/api/v1/projects";
+        AppUser user = new AppUser();
         List<Project> projects = Arrays.asList(
                 new Project("Project 1"),
                 new Project("Project 2"),
                 new Project("Project 3")
         );
-        projectRepository.saveAll(projects);
+        projects.forEach(user::addProject);
+        appUserRepository.save(user);
+        String uri = "/api/v1/user/" + user.getId() + "/projects";
         String expectedResult = new ObjectMapper().writeValueAsString(projects);
 
         // WHEN
@@ -62,34 +68,17 @@ class ProjectControllerTest {
     @WithMockUser("username")
     void testCreateProjectReturnExpectedResult() throws Exception {
         // GIVEN
-        String uri = "/api/v1/project";
+        AppUser user = new AppUser();
+        appUserRepository.save(user);
+
+        String uri = "/api/v1/user/" + user.getId() + "/project";
+
         String content = "{\"name\": \"Project 1\"}";
 
-        // Create a new Project
-        KanbanCard kanbanCard1 = new KanbanCard("Card 1", "");
-        kanbanCard1.setId(1L);
-
-        KanbanColumn column1 = new KanbanColumn("To Do");
-        column1.setId(1L);
-        column1.addCard(kanbanCard1);
-
-        KanbanColumn column2 = new KanbanColumn("In Progress");
-        column2.setId(2L);
-
-        KanbanColumn column3 = new KanbanColumn("Done");
-        column3.setId(3L);
-
-        KanbanBoard board = new KanbanBoard();
-        board.setId(1L);
-        board.addColumn(column1);
-        board.addColumn(column2);
-        board.addColumn(column3);
-
-        Project project = new Project("Project 1");
-        project.setId(1L);
-        project.setBoard(board);
-
-        String expectedResult = new ObjectMapper().writeValueAsString(project);
+        String expectedResult = "{\"id\":1,\"name\":\"Project 1\",\"board\":{\"id\":1,\"columns\":" +
+                "[{\"id\":1,\"title\":\"To Do\",\"index\":0,\"cards\":[{\"id\":1,\"title\":\"Card 1\"," +
+                "\"description\":\"\",\"index\":0}]},{\"id\":2,\"title\":\"In Progress\",\"index\":1," +
+                "\"cards\":[]},{\"id\":3,\"title\":\"Done\",\"index\":2,\"cards\":[]}]}}";
 
         // WHEN
         MvcResult result = mockMvc.perform(post(uri)
@@ -99,8 +88,15 @@ class ProjectControllerTest {
                 .andExpect(status().isOk()).andReturn();
         String actualResult = result.getResponse().getContentAsString();
 
+        Optional<List<Project>> projects = projectRepository.findProjectsByUserId(user.getId());
+
         // THEN
+        // Check response
         assertThat(actualResult).isEqualTo(expectedResult);
+
+        // Check is project created in database
+        assertThat(projects).isPresent();
+        assertThat(projects.get().size()).isEqualTo(1);
     }
 
 }

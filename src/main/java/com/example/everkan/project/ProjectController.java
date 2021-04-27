@@ -8,21 +8,24 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping(path = "api/v1")
+@RequestMapping(path = "api/v1/user/{userID}")
 @AllArgsConstructor
 public class ProjectController {
 
     private final ProjectService projectService;
 
     @GetMapping("projects")
-    public List<Project> getAllProjects() {
-        return projectService.getAllProjects();
+    public List<Project> getProjectsByUserId(@PathVariable Long userID) {
+        return projectService.getProjectsByUserId(userID);
     }
 
 
     @PostMapping("project")
-    public Project createProject(@RequestBody ProjectRequest request) {
-        return projectService.createProject(request);
+    public Project createProject(
+            @PathVariable Long userID,
+            @RequestBody ProjectRequest request
+    ) {
+        return projectService.createProject(userID, request);
     }
 
 }
