@@ -5,6 +5,8 @@ server:
   port: 8080
 
 spring:
+  profiles:
+    active: prod
   datasource:
     username: postgres
     password: password
