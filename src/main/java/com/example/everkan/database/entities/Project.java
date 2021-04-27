@@ -1,5 +1,6 @@
 package com.example.everkan.database.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,6 +31,11 @@ public class Project {
             cascade = CascadeType.ALL
     )
     private KanbanBoard board;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
+    private AppUser user;
 
     public Project(String name) {
         this.name = name;

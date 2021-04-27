@@ -10,8 +10,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 
 @Setter
@@ -43,6 +45,11 @@ public class AppUser implements UserDetails {
     private Boolean locked = false;
     private Boolean enabled = false;
 
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL
+    )
+    private List<Project> projects = new ArrayList<>();
 
     public AppUser(String firstName, String lastName, String email, String password, AppUserRole appUserRole) {
         this.firstName = firstName;
@@ -92,6 +99,11 @@ public class AppUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public void addProject(Project project){
+        project.setUser(this);
+        projects.add(project);
     }
 
 }
