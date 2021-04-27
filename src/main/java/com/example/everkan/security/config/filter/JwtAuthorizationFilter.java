@@ -1,5 +1,6 @@
 package com.example.everkan.security.config.filter;
 
+import com.example.everkan.security.config.JwtSecurityConstants;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,9 +26,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             FilterChain filterChain)
             throws IOException, ServletException {
 
-        String header = request.getHeader("Authorization");
+        String header = request.getHeader(JwtSecurityConstants.HEADER_STRING);
 
-        if (header == null || !header.startsWith("Bearer")) {
+        if (header == null || !header.startsWith(JwtSecurityConstants.TOKEN_PREFIX)) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -37,10 +38,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader(JwtSecurityConstants.HEADER_STRING);
         if (token != null) {
-            String user = Jwts.parser().setSigningKey("SecretKeyToGenJWTs".getBytes())
-                    .parseClaimsJws(token.replace("Bearer", ""))
+            String user = Jwts.parser().setSigningKey(JwtSecurityConstants.SECRET.getBytes())
+                    .parseClaimsJws(token.replace(JwtSecurityConstants.TOKEN_PREFIX, ""))
                     .getBody()
                     .getSubject();
             if (user != null) {

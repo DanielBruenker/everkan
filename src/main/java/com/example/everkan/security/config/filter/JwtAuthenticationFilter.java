@@ -1,6 +1,7 @@
 package com.example.everkan.security.config.filter;
 
 import com.example.everkan.database.entities.AppUser;
+import com.example.everkan.security.config.JwtSecurityConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -23,7 +24,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
-        setFilterProcessesUrl("/login");
+        setFilterProcessesUrl(JwtSecurityConstants.SIGN_IN_URL);
     }
 
     @Override
@@ -51,9 +52,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String token = Jwts.builder()
                 .setSubject(((AppUser) authentication.getPrincipal()).getUsername())
                 .setExpiration(new Date(System.currentTimeMillis() + 864_000_000))
-                .signWith(SignatureAlgorithm.HS512, "SecretKeyToGenJWTs".getBytes())
+                .signWith(SignatureAlgorithm.HS512, JwtSecurityConstants.SECRET.getBytes())
                 .compact();
-        response.addHeader("Authorization", "Bearer " + token);
+        response.addHeader(JwtSecurityConstants.HEADER_STRING, JwtSecurityConstants.TOKEN_PREFIX + " " + token);
     }
 
 
