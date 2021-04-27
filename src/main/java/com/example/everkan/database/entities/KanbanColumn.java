@@ -40,7 +40,7 @@ public class KanbanColumn {
     private List<KanbanCard> cards = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name="board_id", nullable=false)
+    @JoinColumn(name = "board_id", nullable = false)
     @JsonIgnore
     private KanbanBoard board;
 

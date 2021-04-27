@@ -32,7 +32,7 @@ public class KanbanCard {
     private Integer index;
 
     @ManyToOne
-    @JoinColumn(name="column_id", nullable=false)
+    @JoinColumn(name = "column_id", nullable = false)
     @JsonIgnore
     private KanbanColumn column;
 

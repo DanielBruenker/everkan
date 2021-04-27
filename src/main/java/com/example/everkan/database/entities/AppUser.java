@@ -1,5 +1,6 @@
 package com.example.everkan.database.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ import java.util.Collections;
 @NoArgsConstructor
 @Entity
 @Table
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AppUser implements UserDetails {
 
     @SequenceGenerator(

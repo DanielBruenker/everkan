@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -18,8 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -32,12 +33,10 @@ class ProjectControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private ProjectService service;
-
-    @Autowired
     private ProjectRepository projectRepository;
 
     @Test
+    @WithMockUser("username")
     void testGetAllProjectsReturnsExpectedResult() throws Exception {
         // GIVEN
         String uri = "/api/v1/projects";
@@ -53,13 +52,14 @@ class ProjectControllerTest {
         MvcResult result = mockMvc.perform(get(uri)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
-        String actualResult  = result.getResponse().getContentAsString();
+        String actualResult = result.getResponse().getContentAsString();
 
         // THEN
         assertThat(actualResult).isEqualTo(expectedResult);
     }
 
     @Test
+    @WithMockUser("username")
     void testCreateProjectReturnExpectedResult() throws Exception {
         // GIVEN
         String uri = "/api/v1/project";
@@ -97,7 +97,7 @@ class ProjectControllerTest {
                 .content(content)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andReturn();
-        String actualResult  = result.getResponse().getContentAsString();
+        String actualResult = result.getResponse().getContentAsString();
 
         // THEN
         assertThat(actualResult).isEqualTo(expectedResult);
