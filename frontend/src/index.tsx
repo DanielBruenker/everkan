@@ -10,7 +10,8 @@ const App = () => {
 
   useEffect(() => {
     fetch(
-      `http://localhost:8080/api/v1/projects`,
+      // TODO: use user id from current user
+      `http://localhost:8080/api/v1/user/1/projects`,
       {
         method: 'GET'
       }
