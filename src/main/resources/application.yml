@@ -43,6 +43,4 @@ spring:
 
 
 app:
-  jwtSecret: SecretKeyToGenJWTs
-  jwtExpirationMs: 86400000
   email_address: "hello@everkan.com"

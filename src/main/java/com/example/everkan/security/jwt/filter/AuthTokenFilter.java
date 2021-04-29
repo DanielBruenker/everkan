@@ -1,6 +1,7 @@
 package com.example.everkan.security.jwt.filter;
 
 import com.example.everkan.appuser.AppUserDetailsServiceImpl;
+import com.example.everkan.security.jwt.JwtSecurityConstants;
 import com.example.everkan.security.jwt.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,9 +55,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     }
 
     private String parseJwt(HttpServletRequest request) {
-        String headerAuth = request.getHeader("Authorization");
+        String headerAuth = request.getHeader(JwtSecurityConstants.HEADER_STRING);
 
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith(JwtSecurityConstants.TOKEN_PREFIX + " ")) {
             return headerAuth.substring(7);
         }
 

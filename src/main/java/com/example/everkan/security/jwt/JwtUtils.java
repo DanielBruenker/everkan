@@ -15,12 +15,6 @@ public class JwtUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-    @Value("${app.jwtSecret}")
-    private String jwtSecret;
-
-    @Value("${app.jwtExpirationMs}")
-    private int jwtExpirationMs;
-
     public String generateJwtToken(Authentication authentication){
 
         AppUser userPrinzipal = (AppUser) authentication.getPrincipal();
@@ -29,18 +23,18 @@ public class JwtUtils {
                 .setSubject(userPrinzipal.getEmail())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + JwtSecurityConstants.EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .signWith(SignatureAlgorithm.HS512, JwtSecurityConstants.SECRET)
                 .compact();
 
     }
 
     public String getUserEmailFromJwtToken(String token) {
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(JwtSecurityConstants.SECRET).parseClaimsJws(token).getBody().getSubject();
     }
 
     public boolean validateJwtToken(String authToken) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+            Jwts.parser().setSigningKey(JwtSecurityConstants.SECRET).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException e) {
             logger.error("Invalid JWT signature: {}", e.getMessage());

@@ -13,7 +13,5 @@ import org.springframework.context.annotation.Configuration;
 public class ApplicationProperties {
 
     private String email_address;
-    private String jwtSecret;
-    private int jwtExpirationMs;
 
 }
