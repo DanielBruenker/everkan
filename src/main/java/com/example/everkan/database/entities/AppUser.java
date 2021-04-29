@@ -1,10 +1,7 @@
 package com.example.everkan.database.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +17,7 @@ import java.util.List;
 @Getter
 @EqualsAndHashCode
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -68,6 +66,20 @@ public class AppUser implements UserDetails {
         this.appUserRole = appUserRole;
         this.locked = locked;
         this.enabled = enabled;
+    }
+
+
+    public static AppUser build(AppUser user) {
+          return new AppUser(
+                user.getId(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                user.getPassword(),
+                user.getAppUserRole(),
+                user.getLocked(),
+                user.getEnabled(),
+                user.getProjects());
     }
 
     @Override

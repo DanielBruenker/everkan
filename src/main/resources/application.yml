@@ -5,6 +5,9 @@ server:
   port: 8080
 
 spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
   profiles:
     active: prod
   datasource:
@@ -40,4 +43,6 @@ spring:
 
 
 app:
-  email_address: "hello@boorekram.com"
+  jwtSecret: SecretKeyToGenJWTs
+  jwtExpirationMs: 86400000
+  email_address: "hello@everkan.com"

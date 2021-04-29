@@ -37,4 +37,6 @@ spring:
 
 
 app:
-  email_address: "hello@boorekram.com"
+  jwtSecret: SecretKeyToGenJWTs
+  jwtExpirationMs: 86400000
+  email_address: "hello@everkan.com"

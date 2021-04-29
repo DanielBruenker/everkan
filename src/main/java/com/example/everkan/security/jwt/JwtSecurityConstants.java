@@ -1,4 +1,4 @@
-package com.example.everkan.security.config;
+package com.example.everkan.security.jwt;
 
 public class JwtSecurityConstants {
     public static final String SECRET = "SecretKeyToGenJWTs";
