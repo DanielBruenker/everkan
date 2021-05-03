@@ -1,7 +1,7 @@
-import { Avatar, Card, CardContent, CardHeader, IconButton, makeStyles } from '@material-ui/core';
+import { Avatar, CardContent, CardHeader, IconButton, makeStyles } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { Draggable } from 'react-beautiful-dnd';
-
+import { Card } from 'primereact/card';
 
 const useStyles = makeStyles({
   container: {
@@ -38,28 +38,18 @@ const KanbanCard = function (props: TaskPropsTypes) {
   return (
     <Draggable draggableId={'card-' + props.card.id} index={props.index}>
       {(provided, snapshot) => (
-        <Card
+        <div
           {...provided.dragHandleProps}
           {...provided.draggableProps}
-          ref={provided.innerRef}
-          className={snapshot.isDragging ? classes.containerDragging : classes.container}
           onClick={() => console.log('clicked!')}
+          ref={provided.innerRef}
         >
-          <CardHeader
+          <Card
             title={props.card.title}
-            avatar={
-              <Avatar aria-label="recipe">D</Avatar>
-            }
-            action={
-              <IconButton aria-label="settings">
-                <MoreVertIcon/>
-              </IconButton>
-            }
-          />
-          <CardContent>
-            {props.card.description}
-          </CardContent>
-        </Card>
+            className={snapshot.isDragging ? classes.containerDragging : classes.container}
+          >
+          </Card>
+        </div>
       )}
     </Draggable>
   );

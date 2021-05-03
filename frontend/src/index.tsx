@@ -1,37 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { store } from './helpers'
+import { App } from './components/App';
 
-import KanbanBoard from './Components/KanbanBoard';
-
-
-const App = () => {
-
-  const [project, setProject] = useState(null);
-
-  useEffect(() => {
-    fetch(
-      // TODO: use user id from current user
-      `http://localhost:8080/api/v1/user/1/projects`,
-      {
-        method: 'GET'
-      }
-    )
-      .then(res => res.json())
-      .then(response => {
-        setProject(response[0]);
-      })
-      .catch(error => console.log(error));
-  }, []);
-
-
-  const renderBoard = () => {
-    // @ts-ignore
-    return ((project) ? <KanbanBoard boardID={1}/> : null);
-  };
-
-  return (
-    renderBoard()
-  );
-};
-
-ReactDOM.render(<App/>, document.getElementById('root'));
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);

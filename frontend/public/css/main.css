@@ -1,0 +1,21 @@
+html, body, #root, .full-screen  {
+    height: 100%;
+    width: 100%;
+}
+
+/*  LOGIN PAGE  */
+
+.login-form-container {
+    width: 400px;
+    height: 400px;
+    background: lightgray;
+}
+
+
+/*  KANBAN BOARD COMPONENT */
+
+.column-container {
+    display: flex;
+    height: 120vh;
+}
+

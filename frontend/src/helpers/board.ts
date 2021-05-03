@@ -1,3 +1,9 @@
+export const boardHelper = {
+  moveCard,
+  moveColumn
+};
+
+
 /**
  * This function removes a card from a column.
  *
@@ -37,15 +43,14 @@ const addCardToColumn = (column: any, card: any, index: number) => {
 
 
 /**
- * This function is called when a column is moved.
- * The changed column order will be saved in the columnOrder - state of this component.
+ * This factions move a column to an other position.
  *
  * @param columns
  * @param destination
  * @param source
  * @param draggableId
  */
-export const moveColumn = (columns: any[], source: any, destination: any, draggableId: any) => {
+function moveColumn(columns: any[], source: any, destination: any, draggableId: any) {
 
   // Copy column order from columnOrder - state
   // @ts-ignore
@@ -69,15 +74,14 @@ export const moveColumn = (columns: any[], source: any, destination: any, dragga
 
 
 /**
- * This function is called when a card is moved in its own column or to another column.
- * The changed source and destination column will be saved in the columns-State of this component.
+ * This function is moves a card to an other position or to another column.
  *
  * @param columns
  * @param destination
  * @param source
  * @param draggableId
  */
-export const moveCard = (columns: any[], source: any, destination: any, draggableId: any) => {
+function moveCard(columns: any[], source: any, destination: any, draggableId: any){
 
   // The source column is the column from which an object is dragged.
   const sourceColumnIndex = columns.findIndex((x: { id: number; }) => 'column-' + x.id === source.droppableId);
