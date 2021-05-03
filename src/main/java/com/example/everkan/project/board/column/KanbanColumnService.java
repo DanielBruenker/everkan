@@ -35,7 +35,7 @@ public class KanbanColumnService {
             card.setDescription(cardRequest.getDescription());
             card.setColumn(column);
         }
-        return kanbanColumnRepository.save(column);
+        return kanbanColumnRepository.saveAndFlush(column);
     }
 
     public List<KanbanColumn> updateColumns(List<KanbanColumnRequest> request) {
@@ -44,7 +44,7 @@ public class KanbanColumnService {
             KanbanColumn column = updateColumn(kanbanColumnRequest);
             updatedColumns.add(column);
         }
-        return kanbanColumnRepository.saveAll(updatedColumns);
+        return updatedColumns;
     }
 
     private KanbanColumn findColumnById(Long columnId) {

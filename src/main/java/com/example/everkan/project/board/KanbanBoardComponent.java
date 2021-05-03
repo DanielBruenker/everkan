@@ -15,6 +15,14 @@ public class KanbanBoardComponent {
 
     private final KanbanBoardService kanbanBoardService;
 
+
+    @PutMapping(path = "/{boardID}")
+    public KanbanBoard update(
+            @PathVariable("boardID") Long boardID,
+            @RequestBody KanbanBoardRequest request) {
+        return kanbanBoardService.update(boardID, request);
+    }
+
     @PostMapping(path = "/{boardID}/column")
     public KanbanColumn addColumn(
             @PathVariable("boardID") Long boardID,

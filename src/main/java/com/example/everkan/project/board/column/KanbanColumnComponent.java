@@ -11,25 +11,4 @@ import java.util.List;
 @AllArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(path = "api/v1/board/{boardID}")
-public class KanbanColumnComponent {
-
-    private final KanbanColumnService kanbanColumnService;
-    private final KanbanBoardService kanbanBoardService;
-
-
-    @PutMapping("column")
-    public KanbanColumn updateColumn(
-            @RequestBody KanbanColumnRequest request,
-            @PathVariable Long boardID) {
-        kanbanBoardService.findKanbanBoardById(boardID);
-        return kanbanColumnService.updateColumn(request);
-    }
-
-    @PutMapping(path = "columns")
-    public List<KanbanColumn> updateColumns(
-            @RequestBody List<KanbanColumnRequest> request) {
-        return kanbanColumnService.updateColumns(request);
-    }
-
-
-}
+public class KanbanColumnComponent {}
