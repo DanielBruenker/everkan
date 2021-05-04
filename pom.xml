@@ -128,10 +128,13 @@
 								</configuration>
 							</execution>
 							<execution>
-								<id>webpack build</id>
+								<id>webpack build </id>
 								<goals>
-									<goal>webpack</goal>
+									<goal>npm</goal>
 								</goals>
+								<configuration>
+									<arguments>run prod-build</arguments>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>

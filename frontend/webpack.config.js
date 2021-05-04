@@ -1,6 +1,9 @@
-module.exports = {
+const HtmlWebPackPlugin = require( 'html-webpack-plugin' );
+const path = require( 'path' );
+
+let config = {
     devtool: "source-map",
-    entry:  "./src/index.tsx",
+    entry: "./src/index.tsx",
     cache: true,
     mode: 'development',
     resolve: {
@@ -14,8 +17,8 @@ module.exports = {
                 exclude: /node_modules/,
             },
             {
-                test:/\.(s*)css$/,
-                use:['style-loader','css-loader']
+                test: /\.(s*)css$/,
+                use: ['style-loader', 'css-loader']
             },
             {
                 test: /\.(png|woff|woff2|eot|ttf|svg)$/,
@@ -27,8 +30,30 @@ module.exports = {
             }
         ],
     },
-    output: {
-        filename: '../../src/main/resources/static/built/bundle.js'
-    },
+    plugins: [
+        new HtmlWebPackPlugin({
+            template: path.resolve(__dirname, 'public/index.html'),
+            filename: 'index.html'
+        })
+    ]
+};
+
+
+module.exports = (env, argv) => {
+
+    if (argv.mode === 'development') {
+        config.output = {
+            path: path.resolve( __dirname, 'dist' ),
+            filename: 'main.js',
+            publicPath: '/',
+        };
+    }
+
+    if (argv.mode === 'production') {
+        config.output = {
+            filename: '../../src/main/resources/static/built/bundle.js'
+        };
+    }
+    return config;
 };
 
