@@ -1,11 +1,23 @@
-const HtmlWebPackPlugin = require( 'html-webpack-plugin' );
-const path = require( 'path' );
+const path = require('path');
+const fs = require('fs');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+// App directory
+const appDirectory = fs.realpathSync(process.cwd());
+
+// Gets absolute path of file within app directory
+const resolveAppPath = relativePath => path.resolve(appDirectory, relativePath);
+
+// Host
+const host = process.env.HOST || 'localhost';
+
+// Required for babel-preset-react-app
+process.env.NODE_ENV = 'development';
 
 let config = {
     devtool: "source-map",
-    entry: "./src/index.tsx",
+    entry: resolveAppPath('src'),
     cache: true,
-    mode: 'development',
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
     },
@@ -19,21 +31,13 @@ let config = {
             {
                 test: /\.(s*)css$/,
                 use: ['style-loader', 'css-loader']
-            },
-            {
-                test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-                use: 'url-loader?limit=100000'
-            },
-            {
-                test: /\.(ico|jpe?g|png|gif|webp|svg|mp4|webm|wav|mp3|m4a|aac|oga)(\?.*)?$/,
-                use: "file-loader"
             }
         ],
     },
     plugins: [
-        new HtmlWebPackPlugin({
-            template: path.resolve(__dirname, 'public/index.html'),
-            filename: 'index.html'
+        new HtmlWebpackPlugin({
+            inject: true,
+            template: resolveAppPath('public/index.html'),
         })
     ]
 };
@@ -42,18 +46,37 @@ let config = {
 module.exports = (env, argv) => {
 
     if (argv.mode === 'development') {
+        config.mode = 'development';
         config.output = {
-            path: path.resolve( __dirname, 'dist' ),
-            filename: 'main.js',
-            publicPath: '/',
+            filename: 'static/js/bundle.js',
         };
+        config.devServer = {
+            // Serve index.html as the base
+            contentBase: resolveAppPath('public'),
+
+            // Enable compression
+            compress: true,
+
+            // Enable hot reloading
+            hot: true,
+
+            host,
+            port: 3000,
+
+            proxy: {
+                '/api': 'http://localhost:8080',
+            },
+
+            // Public path is root of content base
+            publicPath: '/'
+        }
     }
 
     if (argv.mode === 'production') {
+        config.mode = 'production';
         config.output = {
             filename: '../../src/main/resources/static/built/bundle.js'
         };
     }
     return config;
 };
-
