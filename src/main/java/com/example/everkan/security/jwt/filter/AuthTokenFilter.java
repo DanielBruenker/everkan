@@ -21,15 +21,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
+@AllArgsConstructor
 public class AuthTokenFilter extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
-    @Autowired
-    private  JwtUtils jwtUtils;
 
-    @Autowired
-    private  AppUserDetailsServiceImpl appUserDetailsService;
+    private final JwtUtils jwtUtils;
+    private final AppUserDetailsServiceImpl appUserDetailsService;
 
 
     @Override

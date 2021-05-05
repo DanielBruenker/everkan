@@ -1,7 +1,9 @@
 package com.example.everkan.security.config;
 
+import com.example.everkan.appuser.AppUserDetailsServiceImpl;
 import com.example.everkan.appuser.AppUserService;
 import com.example.everkan.security.jwt.AuthEntryPointJwt;
+import com.example.everkan.security.jwt.JwtUtils;
 import com.example.everkan.security.jwt.filter.AuthTokenFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -26,10 +28,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final AppUserService appUserService;
     private final AuthEntryPointJwt unauthorizedHandler;
+    private final JwtUtils jwtUtils;
+    private final AppUserDetailsServiceImpl appUserDetailsService;
 
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
-        return new AuthTokenFilter();
+        return new AuthTokenFilter(jwtUtils, appUserDetailsService);
     }
 
     @Bean
