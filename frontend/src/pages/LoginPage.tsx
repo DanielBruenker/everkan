@@ -1,37 +1,9 @@
+import { Grid, Typography } from '@material-ui/core';
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { userActions } from '../actions';
+import LoginForm from '../components/LoginForm';
 
-import { InputText } from 'primereact/inputtext';
-import { Button } from 'primereact/button';
-
-const LoginForm = (props) => {
-  return (
-    <form>
-      <div className="p-field">
-        <label
-          htmlFor="email"
-          className="p-d-block">Email</label>
-        <InputText
-          id="email"
-          value={props.email}
-          onChange={props.onChangeEmailInput}
-          type="email" />
-      </div>
-      <div className="p-field">
-        <label
-          htmlFor="password"
-          className="p-d-block">Passwort</label>
-        <InputText
-          id="password"
-          value={props.password}
-          onChange={props.onChangePasswordInput}
-          type="password" />
-      </div>
-      <Button onClick={props.onSubmit}>Anmelden</Button>
-    </form>
-    );
-};
 
 const LoginPage = (props) => {
 
@@ -54,8 +26,13 @@ const LoginPage = (props) => {
   };
 
   return (
-    <div className="p-grid p-justify-center p-align-center full-screen">
-      <div className="p-grid p-justify-center p-align-center login-form-container">
+    <Grid container direction="row" justify="center" alignItems="center" spacing={3} className="login-form-container">
+      <Grid className="login-form-wrapper">
+        <Grid justify="center" alignItems="center">
+          <Typography variant="h4" component="h2">
+            Anmelden
+          </Typography>
+        </Grid>
         <LoginForm
           email={email}
           password={password}
@@ -63,9 +40,9 @@ const LoginPage = (props) => {
           onChangePasswordInput={handleOnChangePasswordInput}
           onSubmit={handleSubmit}
         />
-      </div>
-    </div>
-  )
+      </Grid>
+    </Grid>
+  );
 
 }
 

@@ -1,17 +1,12 @@
-import { connect } from 'react-redux';
-import { Redirect, Route, Router, Switch } from 'react-router-dom';
-import { alertActions } from '../actions';
-import { history } from '../helpers';
-import { HomePage } from '../pages/HomePage';
-import { LoginPage } from '../pages/LoginPage';
-import { PrivateRoute } from './PrivateRoute';
+import { connect } from "react-redux";
+import { Redirect, Route, Router, Switch } from "react-router-dom";
+import { alertActions } from "../actions";
+import { history } from "../helpers";
+import { HomePage } from "../pages/HomePage";
+import { LoginPage } from "../pages/LoginPage";
+import { PrivateRoute } from "./PrivateRoute";
 
-import 'primereact/resources/themes/saga-blue/theme.css'
-import 'primereact/resources/primereact.min.css'
-import 'primeicons/primeicons.css'
-import "primeflex/primeflex.css"
-import '../../public/css/main.css'
-
+import "../../public/css/main.css";
 
 const App = () => {
   return (
@@ -33,7 +28,7 @@ function mapState(state) {
 }
 
 const actionCreators = {
-  clearAlerts: alertActions.clear
+  clearAlerts: alertActions.clear,
 };
 
 const connectedApp = connect(mapState, actionCreators)(App);

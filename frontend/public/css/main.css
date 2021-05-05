@@ -3,19 +3,17 @@ html, body, #root, .full-screen  {
     width: 100%;
 }
 
-/*  LOGIN PAGE  */
-
-.login-form-container {
-    width: 400px;
-    height: 400px;
-    background: lightgray;
-}
-
-
 /*  KANBAN BOARD COMPONENT */
-
 .column-container {
     display: flex;
-    height: 120vh;
+    height: 100vh;
 }
 
+.login-form-container {
+    height: 100%;
+}
+
+.login-form-wrapper {
+   background: lightgray;
+   padding: 40px;
+}

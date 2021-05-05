@@ -1,7 +1,8 @@
+import React from 'react';
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { connect } from "react-redux";
 import { boardActions } from "../actions/BoardActions";
-import KanbanColumn from "./KanbanColumn";
+import KanbanColumn from "./KanbanColumn/KanbanColumn";
 
 
 const KanbanBoard = (props) => {
