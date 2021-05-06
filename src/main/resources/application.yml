@@ -43,4 +43,4 @@ spring:
 
 
 app:
-  email_address: "hello@everkan.com"
+  email-address: "hello@everkan.com"

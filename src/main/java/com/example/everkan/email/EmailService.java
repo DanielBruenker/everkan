@@ -19,7 +19,7 @@ public class EmailService implements EmailSender {
     private final String from;
     private final JavaMailSender mailSender;
 
-    public EmailService(@Value("${app.email_address}") String from, JavaMailSender mailSender) {
+    public EmailService(@Value("${app.email-address}") String from, JavaMailSender mailSender) {
         this.from = from;
         this.mailSender = mailSender;
     }

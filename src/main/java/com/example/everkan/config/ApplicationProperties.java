@@ -12,6 +12,6 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "app")
 public class ApplicationProperties {
 
-    private String email_address;
+    private String emailAddress;
 
 }
