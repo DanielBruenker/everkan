@@ -64,7 +64,7 @@ function moveColumn(
 
   const column = newColumnOrder.find((x: { id: number; }) => x.id === parseInt(draggableId.slice(-1)));
 
-  if (typeof column == 'undefined') {
+  if (column == undefined) {
     return newColumnOrder;
   }
 
@@ -107,7 +107,7 @@ function moveCard(columns: KanbanColumn[],
   const draggedCard = sourceColumn.cards.find(x => 'card-' + x.id === draggableId);
 
   if(draggedCard == undefined) {
-    return;
+    return newColumns;
   }
 
   if (sourceColumn.id === destinationColumn.id) {
