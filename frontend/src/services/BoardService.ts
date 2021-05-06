@@ -1,4 +1,5 @@
 import { authHeader } from '../helpers';
+import { config }  from '../../config';
 
 export const boardService = {
   update,
@@ -12,7 +13,7 @@ function update(board){
     headers: {'Content-Type': 'application/json', ...header},
     body: JSON.stringify(board)
   };
-  return fetch('http://localhost:8080/api/v1/board/' + board.id, requestOptions)
+  return fetch(config.BASE_URL + '/board/' + board.id, requestOptions)
     .then(response => response.json())
     .then(data => {
       return {
@@ -28,7 +29,7 @@ function getBoard(){
     method: 'GET',
     headers: { 'Content-Type': 'application/json', ...header},
   };
-  return fetch('http://localhost:8080/api/v1/board/' + 1, requestOptions)
+  return fetch(config.BASE_URL + '/board/' + 1, requestOptions)
     .then(response => response.json())
     .then(board => {
       return board;

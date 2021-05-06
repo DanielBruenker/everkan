@@ -1,4 +1,4 @@
-import {authHeader} from "../helpers";
+import {config} from "../../config";
 
 export const userService = {
     login,
@@ -13,7 +13,7 @@ function login(email, password) {
         method: 'POST',
         body: formData
     };
-    return fetch(`/api/v1/auth/signin`, requestOptions)
+    return fetch(config.BASE_URL + '/auth/signin', requestOptions)
         .then(handleResponse)
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
