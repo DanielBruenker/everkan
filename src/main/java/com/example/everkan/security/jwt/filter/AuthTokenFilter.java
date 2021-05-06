@@ -1,11 +1,10 @@
 package com.example.everkan.security.jwt.filter;
 
-import com.example.everkan.appuser.AppUserDetailsServiceImpl;
+import com.example.everkan.appuser.AppUserDetailsService;
 import com.example.everkan.security.jwt.JwtSecurityConstants;
 import com.example.everkan.security.jwt.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,9 +25,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
-
     private final JwtUtils jwtUtils;
-    private final AppUserDetailsServiceImpl appUserDetailsService;
+    private final AppUserDetailsService appUserDetailsService;
 
 
     @Override
