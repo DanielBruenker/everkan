@@ -4,7 +4,7 @@ import com.example.everkan.database.entities.KanbanCard;
 import com.example.everkan.database.entities.KanbanColumn;
 import com.example.everkan.project.board.column.card.KanbanCardRequest;
 import com.example.everkan.project.board.column.card.KanbanCardService;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,11 +13,16 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@AllArgsConstructor
 public class KanbanColumnService {
 
     private final KanbanColumnRepository kanbanColumnRepository;
     private final KanbanCardService kanbanCardService;
+
+    @Autowired
+    public KanbanColumnService(KanbanColumnRepository kanbanColumnRepository, KanbanCardService kanbanCardService) {
+        this.kanbanColumnRepository = kanbanColumnRepository;
+        this.kanbanCardService = kanbanCardService;
+    }
 
     public KanbanColumn updateColumn(KanbanColumnRequest request) {
         KanbanColumn column = findColumnById(request.getId());

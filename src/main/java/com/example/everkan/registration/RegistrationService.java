@@ -8,20 +8,30 @@ import com.example.everkan.email.EmailSender;
 import com.example.everkan.registration.token.ConfirmationTokenService;
 import com.example.everkan.registration.token.exception.ConfirmationTokenExpiredException;
 import com.example.everkan.registration.token.exception.ConfirmationTokenNotFoundException;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
 @Service
-@AllArgsConstructor
 public class RegistrationService {
 
     private final AppUserService appUserService;
     private final EmailValidator emailValidator;
     private final EmailSender emailSender;
     private final ConfirmationTokenService confirmationTokenService;
+
+    @Autowired
+    public RegistrationService(AppUserService appUserService,
+                               EmailValidator emailValidator,
+                               EmailSender emailSender,
+                               ConfirmationTokenService confirmationTokenService) {
+        this.appUserService = appUserService;
+        this.emailValidator = emailValidator;
+        this.emailSender = emailSender;
+        this.confirmationTokenService = confirmationTokenService;
+    }
 
     public String register(RegistrationRequest request) {
         boolean isValidEmail = emailValidator.test(request.getEmail());

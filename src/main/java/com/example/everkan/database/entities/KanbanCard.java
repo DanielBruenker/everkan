@@ -1,19 +1,11 @@
 package com.example.everkan.database.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Table
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class KanbanCard {
 
     @SequenceGenerator(
@@ -36,8 +28,51 @@ public class KanbanCard {
     @JsonIgnore
     private KanbanColumn column;
 
+    public KanbanCard() {
+    }
+
     public KanbanCard(String title, String description) {
         this.title = title;
         this.description = description;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
+    }
+
+    public KanbanColumn getColumn() {
+        return column;
+    }
+
+    public void setColumn(KanbanColumn column) {
+        this.column = column;
     }
 }

@@ -1,19 +1,10 @@
 package com.example.everkan.database.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class KanbanBoard {
 
     @SequenceGenerator(
@@ -35,6 +26,9 @@ public class KanbanBoard {
     @OrderBy(value = "index")
     private List<KanbanColumn> columns = new ArrayList<>();
 
+    public KanbanBoard() {
+    }
+
     public KanbanBoard(List<KanbanColumn> columns) {
         this.columns = columns;
     }
@@ -52,6 +46,22 @@ public class KanbanBoard {
         board.addColumn(column3);
 
         return board;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<KanbanColumn> getColumns() {
+        return columns;
+    }
+
+    public void setColumns(List<KanbanColumn> columns) {
+        this.columns = columns;
     }
 
     public void addColumn(KanbanColumn column) {

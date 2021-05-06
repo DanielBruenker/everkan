@@ -1,7 +1,6 @@
 package com.example.everkan.database.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,12 +11,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-
-@Setter
-@Getter
-@EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -49,6 +42,29 @@ public class AppUser implements UserDetails {
     )
     private List<Project> projects = new ArrayList<>();
 
+    public AppUser() {
+    }
+
+    public AppUser(Long id,
+                   String firstName,
+                   String lastName,
+                   String email,
+                   String password,
+                   AppUserRole appUserRole,
+                   Boolean locked,
+                   Boolean enabled,
+                   List<Project> projects) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.appUserRole = appUserRole;
+        this.locked = locked;
+        this.enabled = enabled;
+        this.projects = projects;
+    }
+
     public AppUser(String firstName, String lastName, String email, String password, AppUserRole appUserRole) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -66,20 +82,6 @@ public class AppUser implements UserDetails {
         this.appUserRole = appUserRole;
         this.locked = locked;
         this.enabled = enabled;
-    }
-
-
-    public static AppUser build(AppUser user) {
-          return new AppUser(
-                user.getId(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail(),
-                user.getPassword(),
-                user.getAppUserRole(),
-                user.getLocked(),
-                user.getEnabled(),
-                user.getProjects());
     }
 
     @Override
@@ -113,9 +115,81 @@ public class AppUser implements UserDetails {
         return enabled;
     }
 
-    public void addProject(Project project){
+    public void addProject(Project project) {
         project.setUser(this);
         projects.add(project);
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public AppUserRole getAppUserRole() {
+        return appUserRole;
+    }
+
+    public void setAppUserRole(AppUserRole appUserRole) {
+        this.appUserRole = appUserRole;
+    }
+
+    public Boolean getLocked() {
+        return locked;
+    }
+
+    public void setLocked(Boolean locked) {
+        this.locked = locked;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
 }

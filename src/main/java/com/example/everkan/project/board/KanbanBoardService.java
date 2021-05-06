@@ -4,18 +4,23 @@ import com.example.everkan.database.entities.KanbanBoard;
 import com.example.everkan.database.entities.KanbanColumn;
 import com.example.everkan.project.board.column.KanbanColumnRequest;
 import com.example.everkan.project.board.column.KanbanColumnService;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
 @Service
-@AllArgsConstructor
 public class KanbanBoardService {
 
     private final KanbanBoardRepository kanbanBoardRepository;
     private final KanbanColumnService kanbanColumnService;
+
+    @Autowired
+    public KanbanBoardService(KanbanBoardRepository kanbanBoardRepository, KanbanColumnService kanbanColumnService) {
+        this.kanbanBoardRepository = kanbanBoardRepository;
+        this.kanbanColumnService = kanbanColumnService;
+    }
 
     public KanbanBoard findKanbanBoardById(Long boardId) {
         return kanbanBoardRepository

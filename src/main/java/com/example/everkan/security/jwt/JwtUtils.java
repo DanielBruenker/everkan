@@ -4,7 +4,6 @@ import com.example.everkan.database.entities.AppUser;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +14,7 @@ public class JwtUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-    public String generateJwtToken(Authentication authentication){
+    public String generateJwtToken(Authentication authentication) {
 
         AppUser userPrinzipal = (AppUser) authentication.getPrincipal();
 
@@ -46,7 +45,7 @@ public class JwtUtils {
             logger.error("JWT token is unsupported: {}", e.getMessage());
         } catch (IllegalArgumentException e) {
             logger.error("JWT claims string is empty: {}", e.getMessage());
-        } catch (Exception e){
+        } catch (Exception e) {
             logger.error(e.getMessage());
         }
 

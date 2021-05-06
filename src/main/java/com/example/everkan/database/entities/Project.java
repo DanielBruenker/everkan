@@ -1,17 +1,11 @@
 package com.example.everkan.database.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Table
-@Getter
-@Setter
-@EqualsAndHashCode
-@NoArgsConstructor
-@AllArgsConstructor
 public class Project {
 
     @SequenceGenerator(
@@ -37,9 +31,43 @@ public class Project {
     @JsonIgnore
     private AppUser user;
 
+    public Project() {
+    }
+
     public Project(String name) {
         this.name = name;
         this.board = KanbanBoard.creatDefaultBoard();
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public KanbanBoard getBoard() {
+        return board;
+    }
+
+    public void setBoard(KanbanBoard board) {
+        this.board = board;
+    }
+
+    public AppUser getUser() {
+        return user;
+    }
+
+    public void setUser(AppUser user) {
+        this.user = user;
+    }
 }

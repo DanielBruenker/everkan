@@ -3,7 +3,6 @@ package com.example.everkan.appuser;
 import com.example.everkan.database.entities.AppUser;
 import com.example.everkan.database.entities.ConfirmationToken;
 import com.example.everkan.registration.token.ConfirmationTokenService;
-import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,7 +14,6 @@ import java.util.UUID;
 
 
 @Service
-@AllArgsConstructor
 public class AppUserService implements UserDetailsService {
 
     private final static String USER_NOT_FOUND_MSG =
@@ -23,6 +21,15 @@ public class AppUserService implements UserDetailsService {
     private final AppUserRepository appUserRepository;
     private final ConfirmationTokenService confirmationTokenService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public AppUserService(
+            AppUserRepository appUserRepository,
+            ConfirmationTokenService confirmationTokenService,
+            BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.appUserRepository = appUserRepository;
+        this.confirmationTokenService = confirmationTokenService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

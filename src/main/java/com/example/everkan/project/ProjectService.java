@@ -1,21 +1,25 @@
 package com.example.everkan.project;
 
 import com.example.everkan.appuser.AppUserRepository;
-import com.example.everkan.appuser.AppUserService;
 import com.example.everkan.database.entities.AppUser;
 import com.example.everkan.database.entities.Project;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
-@AllArgsConstructor
 public class ProjectService {
 
     private final ProjectRepository projectRepository;
     private final AppUserRepository appUserRepository;
+
+    @Autowired
+    public ProjectService(ProjectRepository projectRepository, AppUserRepository appUserRepository) {
+        this.projectRepository = projectRepository;
+        this.appUserRepository = appUserRepository;
+    }
 
     public List<Project> getProjectsByUserId(Long userID) {
         return projectRepository.findProjectsByUserId(userID)
