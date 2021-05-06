@@ -1,9 +1,7 @@
 import { boardConstants } from '../constants';
+import { KanbanBoard } from '../entities/KanbanBoard';
 
-const initState = {
-  id: null,
-  columns: []
-};
+const initState = new KanbanBoard(0, []);
 
 export function board(state = initState, action) {
   switch (action.type) {

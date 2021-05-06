@@ -1,3 +1,6 @@
+import { KanbanCard } from '../entities/KanbanCard';
+import { KanbanColumn } from '../entities/KanbanColumn';
+
 export const boardHelper = {
   moveCard,
   moveColumn
@@ -10,8 +13,8 @@ export const boardHelper = {
  * @param column column
  * @param index position of the card which will be removed
  */
-const removeCardFromColumn = (column: any, index: any) => {
-  // @ts-ignore
+const removeCardFromColumn = (column: KanbanColumn, index: number) => {
+
   const newCards = Array.from(column.cards);
 
   newCards.splice(index, 1);
@@ -29,8 +32,8 @@ const removeCardFromColumn = (column: any, index: any) => {
  * @param card  card
  * @param index position in the column where the task will be added
  */
-const addCardToColumn = (column: any, card: any, index: number) => {
-  // @ts-ignore
+const addCardToColumn = (column: KanbanColumn, card: KanbanCard, index: number) => {
+
   const newCards = Array.from(column.cards);
 
   newCards.splice(index, 0, card);
@@ -50,27 +53,30 @@ const addCardToColumn = (column: any, card: any, index: number) => {
  * @param source
  * @param draggableId
  */
-function moveColumn(columns: any[], source: any, destination: any, draggableId: any) {
+function moveColumn(
+  columns: KanbanColumn[],
+  source:  {droppableId: string, index: number},
+  destination: {droppableId: string, index: number},
+  draggableId: string) {
 
   // Copy column order from columnOrder - state
-  // @ts-ignore
   const newColumnOrder = Array.from(columns);
 
-  // @ts-ignore
-  const column = newColumnOrder.find((x: { id: any; }) => x.id === parseInt(draggableId.slice(-1)));
+  const column = newColumnOrder.find((x: { id: number; }) => x.id === parseInt(draggableId.slice(-1)));
 
-  // move column to new position
+  if (typeof column == 'undefined') {
+    return newColumnOrder;
+  }
+
   newColumnOrder.splice(source.index, 1);
 
-  // @ts-ignore
   newColumnOrder.splice(destination.index, 0, column);
-
   // Update the index of each column
-  // @ts-ignore
+
   newColumnOrder.map((_: any, index: number) => newColumnOrder[index].index = index);
 
   return newColumnOrder;
-};
+}
 
 
 /**
@@ -81,7 +87,10 @@ function moveColumn(columns: any[], source: any, destination: any, draggableId: 
  * @param source
  * @param draggableId
  */
-function moveCard(columns: any[], source: any, destination: any, draggableId: any){
+function moveCard(columns: KanbanColumn[],
+                  source:  {droppableId: string, index: number},
+                  destination:  {droppableId: string, index: number},
+                  draggableId: string) {
 
   // The source column is the column from which an object is dragged.
   const sourceColumnIndex = columns.findIndex((x: { id: number; }) => 'column-' + x.id === source.droppableId);
@@ -91,14 +100,16 @@ function moveCard(columns: any[], source: any, destination: any, draggableId: an
   const destinationColumnIndex = columns.findIndex((x: { id: number; }) => 'column-' + x.id === destination.droppableId);
   const destinationColumn = columns[destinationColumnIndex];
 
-  // Copy columns from columns - state
+  // Copy columns from columns
   let newColumns = Array.from(columns);
 
   // Search the dragged card in the source column.
-  // @ts-ignore
   const draggedCard = sourceColumn.cards.find(x => 'card-' + x.id === draggableId);
 
-  // @ts-ignore
+  if(draggedCard == undefined) {
+    return;
+  }
+
   if (sourceColumn.id === destinationColumn.id) {
     let newSourceColumn = removeCardFromColumn(sourceColumn, source.index);
     newSourceColumn = addCardToColumn(newSourceColumn, draggedCard, destination.index);
@@ -106,9 +117,7 @@ function moveCard(columns: any[], source: any, destination: any, draggableId: an
     // Update the index of each card
     newSourceColumn.cards.map((_: any, index: number) => newSourceColumn.cards[index].index = index);
 
-    // @ts-ignore
     newColumns[sourceColumnIndex] = newSourceColumn;
-
 
   } else {
     // Remove Card from source column and add the card to the destination column
@@ -119,15 +128,13 @@ function moveCard(columns: any[], source: any, destination: any, draggableId: an
     newSourceColumn.cards.map((_: any, index: number) => newSourceColumn.cards[index].index = index);
     newDestinationColumn.cards.map((_: any, index: number) => newDestinationColumn.cards[index].index = index);
 
-    // @ts-ignore
     newColumns[sourceColumnIndex] = newSourceColumn;
 
-    // @ts-ignore
     newColumns[destinationColumnIndex] = newDestinationColumn;
   }
 
   return newColumns;
-};
+}
 
 
 

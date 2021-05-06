@@ -11,7 +11,14 @@ const KanbanBoard = (props) => {
    *
    * @param result
    */
-  const onDragEnd = (result: any) => {
+  const onDragEnd = (
+    result: {
+      destination? : {droppableId: string, index: number},
+      source :  {droppableId: string, index: number},
+      type: string
+      draggableId: string
+    }): void => {
+
     const { destination, source, type, draggableId } = result;
 
     if (!destination) {

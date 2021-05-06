@@ -7,8 +7,6 @@ import {
   createStyles,
   CssBaseline,
   makeStyles,
-  Menu,
-  MenuItem,
   Theme,
   useTheme,
 } from "@material-ui/core";
@@ -17,6 +15,8 @@ import {
 import {
   AppBar,
   Drawer,
+  Menu,
+  MenuItem,
   IconButton,
   Toolbar,
   Typography,
