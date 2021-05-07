@@ -88,15 +88,14 @@ class ProjectControllerTest {
                 .andExpect(status().isOk()).andReturn();
         String actualResult = result.getResponse().getContentAsString();
 
-        Optional<List<Project>> projects = projectRepository.findProjectsByUserId(user.getId());
+        List<Project> projects = projectRepository.findProjectsByUserId(user.getId());
 
         // THEN
         // Check response
         assertThat(actualResult).isEqualTo(expectedResult);
 
         // Check is project created in database
-        assertThat(projects).isPresent();
-        assertThat(projects.get().size()).isEqualTo(1);
+        assertThat(projects.size()).isEqualTo(1);
     }
 
 }

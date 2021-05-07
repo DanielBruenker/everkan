@@ -12,5 +12,5 @@ import java.util.Optional;
 public interface ProjectRepository extends JpaRepository<Project, Long> {
 
     @Query("SELECT project FROM Project project WHERE project.user.id = ?1")
-    Optional<List<Project>> findProjectsByUserId(Long userID);
+    List<Project> findProjectsByUserId(Long userID);
 }

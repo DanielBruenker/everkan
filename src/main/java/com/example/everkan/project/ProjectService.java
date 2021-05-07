@@ -22,8 +22,7 @@ public class ProjectService {
     }
 
     public List<Project> getProjectsByUserId(Long userID) {
-        return projectRepository.findProjectsByUserId(userID)
-                .orElseThrow(() -> new IllegalStateException("No project found!"));
+        return projectRepository.findProjectsByUserId(userID);
     }
 
     public Project createProject(Long userID, ProjectRequest request) {
