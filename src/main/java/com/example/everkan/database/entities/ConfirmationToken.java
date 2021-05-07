@@ -98,7 +98,7 @@ public class ConfirmationToken {
         this.appUser = appUser;
     }
 
-    public Boolean isConfirmed() {
+    public boolean isConfirmed() {
         return confirmedAt != null;
     }
 

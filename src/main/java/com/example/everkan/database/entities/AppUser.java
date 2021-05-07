@@ -33,8 +33,8 @@ public class AppUser implements UserDetails {
     private String password;
     @Enumerated(EnumType.STRING)
     private AppUserRole appUserRole;
-    private Boolean locked = false;
-    private Boolean enabled = false;
+    private boolean locked = false;
+    private boolean enabled = false;
 
     @OneToMany(
             mappedBy = "user",
@@ -169,7 +169,7 @@ public class AppUser implements UserDetails {
         this.appUserRole = appUserRole;
     }
 
-    public Boolean getLocked() {
+    public boolean getLocked() {
         return locked;
     }
 
@@ -177,7 +177,7 @@ public class AppUser implements UserDetails {
         this.locked = locked;
     }
 
-    public Boolean getEnabled() {
+    public boolean getEnabled() {
         return enabled;
     }
 
