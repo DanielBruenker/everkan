@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
@@ -16,12 +17,11 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
+
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @SpringBootTest
@@ -57,10 +57,11 @@ class ProjectControllerTest {
         // WHEN
         MvcResult result = mockMvc.perform(get(uri)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andReturn();
+                .andReturn();
         String actualResult = result.getResponse().getContentAsString();
 
         // THEN
+        assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
         assertThat(actualResult).isEqualTo(expectedResult);
     }
 
@@ -85,13 +86,13 @@ class ProjectControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andReturn();
+                .andReturn();
         String actualResult = result.getResponse().getContentAsString();
-
         List<Project> projects = projectRepository.findProjectsByUserId(user.getId());
 
         // THEN
         // Check response
+        assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
         assertThat(actualResult).isEqualTo(expectedResult);
 
         // Check is project created in database
