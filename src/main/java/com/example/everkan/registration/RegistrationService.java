@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 @Service
 public class RegistrationService {
@@ -70,7 +71,7 @@ public class RegistrationService {
         if (expiredAt.isBefore(LocalDateTime.now())) {
             throw new ConfirmationTokenExpiredException(expiredAt, token);
         }
-        confirmationTokenService.setConfirmedAt(token, LocalDateTime.now());
+        confirmationTokenService.setConfirmedAt(token, LocalDateTime.now(ZoneOffset.UTC));
         appUserService.enableAppUser(confirmationToken.getAppUser().getEmail());
         return true;
     }
