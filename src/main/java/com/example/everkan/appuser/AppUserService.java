@@ -69,10 +69,10 @@ public class AppUserService implements UserDetailsService {
     public void enableAppUser(String email) {
         AppUser appUser = appUserRepository.findByEmail(email).orElseThrow(() ->
                 new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, email)));
-        if (!appUser.isEnabled()) {
+        if(!appUser.isEnabled()){
             appUser.setEnabled(true);
+            appUserRepository.save(appUser);
         }
-        appUserRepository.save(appUser);
     }
 
 }
