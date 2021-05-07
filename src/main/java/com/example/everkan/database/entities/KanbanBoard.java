@@ -3,6 +3,7 @@ package com.example.everkan.database.entities;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 public class KanbanBoard {
@@ -71,11 +72,10 @@ public class KanbanBoard {
         columns.add(column);
     }
 
-    public KanbanColumn getColumnById(Long columnID) {
+    public Optional<KanbanColumn> getColumnById(Long columnID) {
         return columns.stream()
                 .filter(col -> col.getId().equals(columnID))
-                .findAny()
-                .orElse(null);
+                .findAny();
     }
 
 }
