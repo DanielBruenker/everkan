@@ -68,7 +68,7 @@ public class RegistrationService {
             return true;
         }
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
-        if (expiredAt.isBefore(LocalDateTime.now())) {
+        if (expiredAt.isBefore(LocalDateTime.now(ZoneOffset.UTC))) {
             throw new ConfirmationTokenExpiredException(expiredAt, token);
         }
         confirmationTokenService.setConfirmedAt(token, LocalDateTime.now(ZoneOffset.UTC));
