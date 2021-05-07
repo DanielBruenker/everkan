@@ -27,7 +27,7 @@ public class ProjectService {
 
     public Project createProject(Long userID, ProjectRequest request) {
         AppUser user = appUserRepository.findById(userID)
-                .orElseThrow(() -> new IllegalStateException("User not found!"));
+                .orElseThrow(() -> new IllegalArgumentException("User not found!"));
         Project project = new Project(request.getName());
         project.setUser(user);
         return projectRepository.save(project);
