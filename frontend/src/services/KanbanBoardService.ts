@@ -1,5 +1,7 @@
+import { AxiosResponse } from 'axios';
 import { everkanApi } from "../apis/api";
 import { KanbanBoard } from "../entities/KanbanBoard";
+import { AppDispatch } from '../store';
 import { boardActions } from "../store/slices/KanbanBoardSlice";
 
 export const kanbanBoardService = {
@@ -7,8 +9,8 @@ export const kanbanBoardService = {
   getBoardById,
 };
 
-function update(board: KanbanBoard) {
-  return async (dispatch) => {
+function update(board: KanbanBoard): void {
+  return async (dispatch: AppDispatch) => {
     await everkanApi.board.updateBoard(board)
       .then(response => {})
       .catch(error => {
@@ -17,11 +19,11 @@ function update(board: KanbanBoard) {
   };
 }
 
-function getBoardById(boardId = 1) {
-  return async (dispatch) => {
+function getBoardById(boardId = 1): void {
+  return async (dispatch: AppDispatch) => {
     try {
       await everkanApi.board.getBoardByID(boardId)
-        .then(response => {
+        .then((response: AxiosResponse) => {
           dispatch(boardActions.setBoard({ board: response.data }));
         })
         .catch(error => {
