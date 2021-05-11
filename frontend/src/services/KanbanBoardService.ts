@@ -10,9 +10,8 @@ export const kanbanBoardService = {
 function update(board: KanbanBoard) {
   return async (dispatch) => {
     await everkanApi.board.updateBoard(board)
-      .then(function (response) {
-      })
-      .catch(function (error) {
+      .then(response => {})
+      .catch(error => {
         console.log(error);
       });
   };
@@ -21,10 +20,11 @@ function update(board: KanbanBoard) {
 function getBoardById(boardId = 1) {
   return async (dispatch) => {
     try {
-      const board = await everkanApi.board.getBoardByID(boardId)
+      await everkanApi.board.getBoardByID(boardId)
         .then(response => {
           dispatch(boardActions.setBoard({ board: response.data }));
-        }).catch(error => {
+        })
+        .catch(error => {
           console.log(error);
         });
     } catch (error) {
