@@ -1,12 +1,11 @@
-import { Grid, Typography } from '@material-ui/core';
-import { useState } from 'react';
-import { connect } from 'react-redux';
-import { userActions } from '../actions';
-import LoginForm from '../components/LoginForm';
-
+import { Grid, Typography } from "@material-ui/core";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import LoginForm from "../components/LoginForm";
+import { authenticationService } from "../services/AuthenticationService";
 
 const LoginPage = (props) => {
-
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -21,12 +20,19 @@ const LoginPage = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (email && password) {
-      props.login(email, password);
+      dispatch(authenticationService.login(email, password));
     }
   };
 
   return (
-    <Grid container direction="row" justify="center" alignItems="center" spacing={3} className="login-form-container">
+    <Grid
+      container
+      direction="row"
+      justify="center"
+      alignItems="center"
+      spacing={3}
+      className="login-form-container"
+    >
       <Grid className="login-form-wrapper">
         <Grid justify="center" alignItems="center">
           <Typography variant="h4" component="h2">
@@ -43,18 +49,6 @@ const LoginPage = (props) => {
       </Grid>
     </Grid>
   );
-
-}
-
-function mapState(state) {
-  const { loggingIn } = state.authentication;
-  return { loggingIn };
-}
-
-const actionCreators = {
-  login: userActions.login,
-  logout: userActions.logout
 };
 
-const connectedLoginPage = connect(mapState, actionCreators)(LoginPage);
-export { connectedLoginPage as LoginPage };
+export default LoginPage;

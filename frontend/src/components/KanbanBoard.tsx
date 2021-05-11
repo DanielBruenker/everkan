@@ -1,24 +1,24 @@
-import React from 'react';
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { connect } from "react-redux";
-import { boardActions } from "../actions/BoardActions";
-import KanbanColumn from "./KanbanColumn/KanbanColumn";
+import { useSelector, useDispatch } from "react-redux";
+import { boardActions } from "../store/slices/KanbanBoardSlice";
+import { RootState } from "../store";
+import KanbanColumn from "./KanbanColumn";
 
+const KanbanBoard = () => {
+  const board = useSelector((state: RootState) => state.board);
+  const dispatch = useDispatch();
 
-const KanbanBoard = (props) => {
   /**
    * This function will be called if any object was dragged.
    *
    * @param result
    */
-  const onDragEnd = (
-    result: {
-      destination? : {droppableId: string, index: number},
-      source :  {droppableId: string, index: number},
-      type: string
-      draggableId: string
-    }): void => {
-
+  const onDragEnd = (result: {
+    destination?: { droppableId: string; index: number };
+    source: { droppableId: string; index: number };
+    type: string;
+    draggableId: string;
+  }): void => {
     const { destination, source, type, draggableId } = result;
 
     if (!destination) {
@@ -33,12 +33,24 @@ const KanbanBoard = (props) => {
     }
 
     if (type === "column") {
-      props.moveColumn(props.board, source, destination, draggableId);
+      dispatch(
+        boardActions.moveColumn({
+          source: source,
+          destination: destination,
+          draggableId: draggableId,
+        })
+      );
       return;
     }
 
     if (type === "card") {
-      props.moveCard(props.board, source, destination, draggableId);
+      dispatch(
+        boardActions.moveCard({
+          source: source,
+          destination: destination,
+          draggableId: draggableId,
+        })
+      );
       return;
     }
   };
@@ -52,7 +64,7 @@ const KanbanBoard = (props) => {
             ref={provided.innerRef}
             className="column-container"
           >
-            {props.board.columns.map((column: any, index: number) => {
+            {board.columns.map((column: any, index: number) => {
               return (
                 <KanbanColumn
                   key={column.id}
@@ -70,15 +82,4 @@ const KanbanBoard = (props) => {
   );
 };
 
-function mapState(state) {
-  const { board } = state;
-  return { board };
-}
-
-const actionCreators = {
-  moveColumn: boardActions.moveColumn,
-  moveCard: boardActions.moveCard,
-};
-
-const connectedKanbanBoard = connect(mapState, actionCreators)(KanbanBoard);
-export { connectedKanbanBoard as KanbanBoard };
+export default KanbanBoard;

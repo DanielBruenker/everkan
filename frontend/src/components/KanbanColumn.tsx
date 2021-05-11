@@ -1,5 +1,5 @@
 import { Draggable, Droppable } from 'react-beautiful-dnd';
-import KanbanCard from '../KanbanCard/KanbanCard';
+import KanbanCard from './KanbanCard';
 
 import './KanbanColumn.css';
 

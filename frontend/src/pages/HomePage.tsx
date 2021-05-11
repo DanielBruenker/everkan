@@ -1,6 +1,6 @@
 import { AccountCircle } from "@material-ui/icons";
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 
 // Material UI - Utils
 import {
@@ -26,11 +26,11 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-
 import clsx from "clsx";
-import { alertActions, userActions } from "../actions";
-import { boardActions } from "../actions/BoardActions";
-import { KanbanBoard } from "../components/KanbanBoard";
+import KanbanBoard from "../components/KanbanBoard";
+import { authenticationService } from "../services/AuthenticationService";
+import { kanbanBoardService } from "../services/KanbanBoardService";
+import { RootState } from "../store";
 
 const drawerWidth = 240;
 
@@ -103,17 +103,31 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+let isInitial = false;
+
 const HomePage = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const board = useSelector((state: RootState) => state.board);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openMenu = Boolean(anchorEl);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    props.fetchBoard();
-  }, []);
+    dispatch(kanbanBoardService.getBoardById(1));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isInitial) {
+      isInitial = false;
+      return;
+    }
+    if (board.changed) {
+      dispatch(kanbanBoardService.update(board));
+    }
+  }, [board, dispatch]);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -132,7 +146,7 @@ const HomePage = (props) => {
   };
 
   const handelLogout = () => {
-    props.logout();
+    dispatch(authenticationService.logout());
   };
 
   return (
@@ -218,16 +232,4 @@ const HomePage = (props) => {
   );
 };
 
-function mapState(state) {
-  const { alert } = state;
-  return { alert };
-}
-
-const actionCreators = {
-  clearAlerts: alertActions.clear,
-  logout: userActions.logout,
-  fetchBoard: boardActions.fetchBoard,
-};
-
-const connectedApp = connect(mapState, actionCreators)(HomePage);
-export { connectedApp as HomePage };
+export default HomePage;

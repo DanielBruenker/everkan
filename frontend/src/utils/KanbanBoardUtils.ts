@@ -1,7 +1,7 @@
-import { KanbanCard } from '../entities/KanbanCard';
+import { KanbanCard } from '../entities/KanbanCard'
 import { KanbanColumn } from '../entities/KanbanColumn';
 
-export const boardHelper = {
+export const boardUtils = {
   moveCard,
   moveColumn
 };
