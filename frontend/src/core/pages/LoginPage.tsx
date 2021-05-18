@@ -1,10 +1,10 @@
 import { Grid, Typography } from "@material-ui/core";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import LoginForm from "../components/LoginForm";
-import { authenticationService } from "../services/AuthenticationService";
+import LoginForm from "../../authentication/components/LoginForm";
+import { authenticationActions } from "../../authentication/state/authenticationActions";
 
-const LoginPage = (props) => {
+const LoginPage = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +20,9 @@ const LoginPage = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (email && password) {
-      dispatch(authenticationService.login(email, password));
+      dispatch(
+        authenticationActions.login({ username: email, password: password })
+      );
     }
   };
 

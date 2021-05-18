@@ -23,8 +23,11 @@ public class KanbanCard {
     private String description;
     private Integer index;
 
+    @Column(name = "column_id", insertable = false, updatable = false)
+    private Long columnId;
+
     @ManyToOne
-    @JoinColumn(name = "column_id", nullable = false)
+    @JoinColumn(name = "column_id", nullable = true)
     @JsonIgnore
     private KanbanColumn column;
 
@@ -75,4 +78,13 @@ public class KanbanCard {
     public void setColumn(KanbanColumn column) {
         this.column = column;
     }
+
+    public Long getColumnId() {
+        return columnId;
+    }
+
+    public void setColumnId(Long columnId) {
+        this.columnId = columnId;
+    }
+
 }

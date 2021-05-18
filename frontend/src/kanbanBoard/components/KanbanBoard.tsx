@@ -1,12 +1,16 @@
+import { useEffect } from 'react';
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useSelector, useDispatch } from "react-redux";
-import { boardActions } from "../store/slices/KanbanBoardSlice";
-import { RootState } from "../store";
+import { RootState } from "../../store";
+import { kanbanBoardActions } from '../index';
 import KanbanColumn from "./KanbanColumn";
 
 const KanbanBoard = () => {
-  const board = useSelector((state: RootState) => state.board);
+  const board = useSelector((state: RootState) => state.kanbanBoard);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+  }, [board]);
 
   /**
    * This function will be called if any object was dragged.
@@ -34,7 +38,8 @@ const KanbanBoard = () => {
 
     if (type === "column") {
       dispatch(
-        boardActions.moveColumn({
+        kanbanBoardActions.moveColumn({
+          board: board,
           source: source,
           destination: destination,
           draggableId: draggableId,
@@ -45,7 +50,8 @@ const KanbanBoard = () => {
 
     if (type === "card") {
       dispatch(
-        boardActions.moveCard({
+        kanbanBoardActions.moveCard({
+          board: board,
           source: source,
           destination: destination,
           draggableId: draggableId,
@@ -58,7 +64,7 @@ const KanbanBoard = () => {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="all-columns" direction="horizontal" type="column">
-        {(provided: any, snapshot: any) => (
+        {(provided: any) => (
           <div
             {...provided.droppableProps}
             ref={provided.innerRef}

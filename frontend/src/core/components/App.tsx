@@ -1,10 +1,10 @@
 import { Redirect, Route, Router, Switch } from "react-router-dom";
-import { history } from "../utils/history";
+import { history } from "../../utils/history";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
-import { PrivateRoute } from "./PrivateRoute";
+import { PrivateRoute } from "../../authentication/components/PrivateRoute";
 
-import "../../public/css/main.css";
+import "../../../public/css/main.css";
 
 const App = () => {
   return (

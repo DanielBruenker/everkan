@@ -27,10 +27,11 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import clsx from "clsx";
-import KanbanBoard from "../components/KanbanBoard";
-import { authenticationService } from "../services/AuthenticationService";
-import { kanbanBoardService } from "../services/KanbanBoardService";
-import { RootState } from "../store";
+import { authenticationActions } from "../../authentication/state/authenticationActions";
+import { kanbanBoardActions } from '../../kanbanBoard';
+
+import KanbanBoard from "../../kanbanBoard/components/KanbanBoard";
+import KanbanCardDialog from '../../kanbanBoard/components/KanbanCardDialog';
 
 const drawerWidth = 240;
 
@@ -103,31 +104,18 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-let isInitial = false;
-
-const HomePage = (props) => {
+const HomePage = () => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const board = useSelector((state: RootState) => state.board);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const openMenu = Boolean(anchorEl);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(kanbanBoardService.getBoardById(1));
+    dispatch(kanbanBoardActions.fetchBoardById(1));
   }, [dispatch]);
-
-  useEffect(() => {
-    if (isInitial) {
-      isInitial = false;
-      return;
-    }
-    if (board.changed) {
-      dispatch(kanbanBoardService.update(board));
-    }
-  }, [board, dispatch]);
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -146,7 +134,7 @@ const HomePage = (props) => {
   };
 
   const handelLogout = () => {
-    dispatch(authenticationService.logout());
+    dispatch(authenticationActions.logout());
   };
 
   return (
@@ -227,6 +215,7 @@ const HomePage = (props) => {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <KanbanBoard />
+        <KanbanCardDialog />
       </main>
     </div>
   );
