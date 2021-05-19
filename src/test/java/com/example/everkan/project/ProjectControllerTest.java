@@ -52,7 +52,19 @@ class ProjectControllerTest {
         projects.forEach(user::addProject);
         appUserRepository.save(user);
         String uri = "/api/v1/user/" + user.getId() + "/projects";
-        String expectedResult = new ObjectMapper().writeValueAsString(projects);
+        String expectedResult = "[{\"id\":1,\"name\":\"Project 1\",\"board\":{\"id\":1,\"" +
+                "columns\":[{\"id\":1,\"title\":\"To Do\",\"index\":0,\"cards\":[{\"id\":1," +
+                "\"title\":\"Card 1\",\"description\":\"\",\"noteLink\":\"\",\"index\":0," +
+                "\"columnId\":1}]},{\"id\":2,\"title\":\"In Progress\",\"index\":1,\"cards\"" +
+                ":[]},{\"id\":3,\"title\":\"Done\",\"index\":2,\"cards\":[]}]}},{\"id\":2,\"name\":\"" +
+                "Project 2\",\"board\":{\"id\":2,\"columns\":[{\"id\":4,\"title\":\"To Do\",\"index\"" +
+                ":0,\"cards\":[{\"id\":2,\"title\":\"Card 1\",\"description\":\"\",\"noteLink\":\"\"," +
+                "\"index\":0,\"columnId\":4}]},{\"id\":5,\"title\":\"In Progress\",\"index\":1,\"cards\"" +
+                ":[]},{\"id\":6,\"title\":\"Done\",\"index\":2,\"cards\":[]}]}},{\"id\":3,\"name\":\"Project 3" +
+                "\",\"board\":{\"id\":3,\"columns\":[{\"id\":7,\"title\":\"To Do\",\"index\":0,\"cards\":[{\"id\"" +
+                ":3,\"title\":\"Card 1\",\"description\":\"\",\"noteLink\":\"\",\"index\":0,\"columnId\":7}]}," +
+                "{\"id\":8,\"title\":\"In Progress\",\"index\":1,\"cards\":[]},{\"id\":9,\"title\":\"Done\"," +
+                "\"index\":2,\"cards\":[]}]}}]";
 
         // WHEN
         MvcResult result = mockMvc.perform(get(uri)
@@ -76,10 +88,12 @@ class ProjectControllerTest {
 
         String content = "{\"name\": \"Project 1\"}";
 
-        String expectedResult = "{\"id\":1,\"name\":\"Project 1\",\"board\":{\"id\":1,\"columns\":" +
-                "[{\"id\":1,\"title\":\"To Do\",\"index\":0,\"cards\":[{\"id\":1,\"title\":\"Card 1\"," +
-                "\"description\":\"\",\"index\":0}]},{\"id\":2,\"title\":\"In Progress\",\"index\":1," +
-                "\"cards\":[]},{\"id\":3,\"title\":\"Done\",\"index\":2,\"cards\":[]}]}}";
+        String expectedResult = "{\"id\":1,\"name\":\"Project 1\",\"board\":" +
+                "{\"id\":1,\"columns\":[{\"id\":1,\"title\":\"To Do\",\"index\":0," +
+                "\"cards\":[{\"id\":1,\"title\":\"Card 1\",\"description\":\"\"," +
+                "\"noteLink\":\"\",\"index\":0,\"columnId\":null}]},{\"id\":2,\"title\":" +
+                "\"In Progress\",\"index\":1,\"cards\":[]},{\"id\":3,\"title\":\"Done\"," +
+                "\"index\":2,\"cards\":[]}]}}";
 
         // WHEN
         MvcResult result = mockMvc.perform(post(uri)

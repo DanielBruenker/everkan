@@ -5,28 +5,20 @@ server:
   port: 8080
 
 spring:
-  thymeleaf:
-    prefix: classpath:/templates/
-    suffix: .html
-  profiles:
-    active: test
   datasource:
-    username: postgres
-    password: password
-    url: jdbc:postgresql://localhost:5432/everkan
-
+    url: jdbc:h2:mem:testdb
+  h2:
+    console:
+      enabled: true
   jpa:
     hibernate:
       ddl-auto: create-drop
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.H2Dialect
         format_sql: true
         jdbc:
           time_zone: UTC
-    show-sql: true
-
-
 
   mail:
     host: localhost
