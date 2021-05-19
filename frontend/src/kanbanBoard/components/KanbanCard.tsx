@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import React from 'react';
 import { Draggable } from "react-beautiful-dnd";
 
 import {
@@ -8,7 +8,7 @@ import {
   CardHeader,
   IconButton,
 } from "@material-ui/core";
-
+import { useDispatch } from 'react-redux';
 import EvernoteIcon from "../icons/evernoteIcon";
 import "./KanbanCard.css";
 import { kanbanBoardUIActions } from "../index";
@@ -19,15 +19,15 @@ interface KanbanCardProps {
   index: number;
 }
 
-const KanbanCard = function (props: KanbanCardProps) {
+const KanbanCard: React.FC<KanbanCardProps> = ({ card, index }) =>  {
   const dispatch = useDispatch();
 
   const handleOnClick = () => {
-    dispatch(kanbanBoardUIActions.showKanbanCardDialog({ card: props.card }));
+    dispatch(kanbanBoardUIActions.showKanbanCardDialog({ card: card }));
   };
 
   return (
-    <Draggable draggableId={"card-" + props.card.id} index={props.index}>
+    <Draggable draggableId={"card-" + card.id} index={index}>
       {(provided, snapshot) => (
         <Card
           {...provided.dragHandleProps}
@@ -36,12 +36,12 @@ const KanbanCard = function (props: KanbanCardProps) {
           onClick={handleOnClick}
           className={snapshot.isDragging ? "containerDragging" : "container"}
         >
-          <CardHeader title={props.card.title} />
-          <CardContent>{props.card.description}</CardContent>
+          <CardHeader title={card.title} />
+          <CardContent>{card.description}</CardContent>
           <CardActions disableSpacing>
-            {props.card.noteLink !== "" ? (
+            {card.noteLink !== "" ? (
               <IconButton
-                onClick={() => window.open(props.card.noteLink, "_blank")}
+                onClick={() => window.open(card.noteLink, "_blank")}
                 aria-label="go to evernote"
               >
                 <EvernoteIcon />

@@ -1,20 +1,20 @@
 import { Snackbar } from "@material-ui/core";
 import { Color } from "@material-ui/lab";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import { useTypedSelector } from '../../store';
 import { alertActions } from "../index";
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-const CustomAlert = () => {
+const CustomAlert: React.FC = () => {
   const dispatch = useDispatch();
-  const { alerts } = useSelector((state: RootState) => state.alert);
+  const { alerts } = useTypedSelector((state) => state.alert);
   const [alert, setAlert] = useState({ type: "success" as Color, message: "" });
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState<boolean>(false);
 
   useEffect(() => {
     if (alerts.length > 0) {

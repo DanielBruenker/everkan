@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
-import { RootState } from "../../store";
+import { useDispatch } from 'react-redux';
+import { useTypedSelector } from '../../store';
 import { kanbanBoardActions, kanbanBoardUIActions } from "../index";
 
 import {
@@ -13,21 +12,21 @@ import {
   TextField,
 } from "@material-ui/core";
 
-const AddNewKanbanCardDialog = () => {
-  const kanbanBoard = useSelector((state: RootState) => state.kanbanBoard);
-  const { selectedColumn, showAddNewKanbanCardDialog } = useSelector(
-    (state: RootState) => state.kanbanBoardUI
+const AddNewKanbanCardDialog: React.FC = () => {
+  const kanbanBoard = useTypedSelector((state) => state.kanbanBoard);
+  const { selectedColumn, showAddNewKanbanCardDialog } = useTypedSelector(
+    (state) => state.kanbanBoardUI
   );
   const dispatch = useDispatch();
 
-  const handleOnClose = () => {
+  const handleOnClose = (): void => {
     dispatch(kanbanBoardUIActions.hideAddNewKanbanCardDialog());
     setDescription("");
     setTitle("");
     setNoteLink("");
   };
 
-  const handelOnSave = () => {
+  const handelOnSave = (): void => {
     dispatch(kanbanBoardUIActions.hideAddNewKanbanCardDialog());
     dispatch(
       kanbanBoardActions.addCard({
@@ -47,9 +46,9 @@ const AddNewKanbanCardDialog = () => {
     setDescription("");
   };
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [noteLink, setNoteLink] = useState("");
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [noteLink, setNoteLink] = useState<string>("");
 
   return (
     <div>

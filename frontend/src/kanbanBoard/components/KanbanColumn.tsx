@@ -1,4 +1,5 @@
 import { Grid, IconButton } from "@material-ui/core";
+import React from 'react';
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
 import { kanbanBoardUIActions } from "../index";
@@ -20,31 +21,35 @@ interface KanbanColumnHeaderProps {
   columnTitle: string;
 }
 
-const KanbanColumnHeader = (props: KanbanColumnHeaderProps) => {
+const KanbanColumnHeader: React.FC<KanbanColumnHeaderProps> = ({
+  columnTitle,
+  children,
+}) => {
   return (
     <div className="columnHeader">
-      <h2 className="title">{props.columnTitle}</h2>
+      {children}
+      <h2 className="title">{columnTitle}</h2>
     </div>
   );
 };
 
-const KanbanColumn = function Column(props: KanbanColumnProps) {
+const KanbanColumn: React.FC<KanbanColumnProps> = ({ column, index }) => {
   const dispatch = useDispatch();
 
-  const handleOnClickOnAddNewKanbanCardDialog = (event) => {
+  const handleOnClickOnAddNewKanbanCardDialog = () => {
     dispatch(
-      kanbanBoardUIActions.showAddNewKanbanCardDialog({ column: props.column })
+      kanbanBoardUIActions.showAddNewKanbanCardDialog({ column: column })
     );
   };
 
   const renderCards = () => {
-    return props.column.cards.map((card: any, index: number) => (
+    return column.cards.map((card: any, index: number) => (
       <KanbanCard key={card.id} card={card} index={index} />
     ));
   };
 
   return (
-    <Draggable draggableId={"column-" + props.column.id} index={props.index}>
+    <Draggable draggableId={"column-" + column.id} index={index}>
       {(provided, snapshot) => (
         <div
           className={snapshot.isDragging ? "columnDragging" : "column"}
@@ -52,8 +57,8 @@ const KanbanColumn = function Column(props: KanbanColumnProps) {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
-          <KanbanColumnHeader columnTitle={props.column.title} />
-          <Droppable droppableId={"column-" + props.column.id} type="card">
+          <KanbanColumnHeader columnTitle={column.title} />
+          <Droppable droppableId={"column-" + column.id} type="card">
             {(provided, snapshot) => (
               <div
                 className={

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 import {
   createStyles,
@@ -18,7 +17,8 @@ import {
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 
 import CloseIcon from "@material-ui/icons/Close";
-import { RootState } from "../../store";
+import { useDispatch } from 'react-redux';
+import { useTypedSelector } from '../../store';
 import { kanbanBoardActions, kanbanBoardUIActions } from "../index";
 
 const styles = (theme: Theme) =>
@@ -59,11 +59,11 @@ const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
   );
 });
 
-const KanbanCardDialog = () => {
-  const { showKanbanCardDialog, selectedCard } = useSelector(
-    (state: RootState) => state.kanbanBoardUI
+const KanbanCardDialog: React.FC = () => {
+  const { showKanbanCardDialog, selectedCard } = useTypedSelector(
+    (state) => state.kanbanBoardUI
   );
-  const kanbanBoard = useSelector((state: RootState) => state.kanbanBoard);
+  const kanbanBoard = useTypedSelector((state) => state.kanbanBoard);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -72,11 +72,11 @@ const KanbanCardDialog = () => {
     setNoteLink(selectedCard.noteLink);
   }, [selectedCard]);
 
-  const handleOnClose = () => {
+  const handleOnClose = (): void => {
     dispatch(kanbanBoardUIActions.hideKanbanCardDialog());
   };
 
-  const handelOnSave = (event) => {
+  const handelOnSave = (): void => {
     dispatch(kanbanBoardUIActions.hideKanbanCardDialog());
     const updatedCard = {
       ...selectedCard,
@@ -89,9 +89,11 @@ const KanbanCardDialog = () => {
     );
   };
 
-  const [title, setTitle] = useState(selectedCard.title);
-  const [description, setDescription] = useState(selectedCard.title);
-  const [noteLink, setNoteLink] = useState("");
+  const [title, setTitle] = useState<string>(selectedCard.title);
+  const [description, setDescription] = useState<string>(
+    selectedCard.description
+  );
+  const [noteLink, setNoteLink] = useState<string>("");
 
   return (
     <div>

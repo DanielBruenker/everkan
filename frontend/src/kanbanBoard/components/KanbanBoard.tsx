@@ -1,12 +1,12 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../store";
+import { useDispatch } from 'react-redux';
+import { useTypedSelector } from '../../store';
 import { kanbanBoardActions } from "../index";
 import KanbanColumn from "./KanbanColumn";
 
-const KanbanBoard = () => {
-  const board = useSelector((state: RootState) => state.kanbanBoard);
+const KanbanBoard: React.FC = () => {
+  const board = useTypedSelector((state) => state.kanbanBoard);
   const dispatch = useDispatch();
 
   useEffect(() => {}, [board]);

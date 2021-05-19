@@ -1,5 +1,5 @@
 import { Button, emphasize, makeStyles, TextField } from "@material-ui/core";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { authenticationActions } from "../index";
 
@@ -23,14 +23,14 @@ const useStyles = makeStyles({
   },
 });
 
-const LoginForm = () => {
+const LoginForm: React.FC = () => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
     if (email && password) {
       dispatch(

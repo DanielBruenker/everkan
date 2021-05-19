@@ -5,6 +5,7 @@ import { alertReducer } from './alert';
 import { authenticationReducer } from './authentication';
 import { kanbanBoardReducer } from './kanbanBoard';
 import { kanbanBoardUIReducer } from './kanbanBoard';
+import {useSelector as _useSelector, TypedUseSelectorHook } from 'react-redux';
 
 const loggerMiddleware = createLogger();
 
@@ -21,5 +22,5 @@ export const store = configureStore({
   ]
 })
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store
+type RootState = ReturnType<typeof store.getState>
+export const useTypedSelector: TypedUseSelectorHook<RootState> = _useSelector;
