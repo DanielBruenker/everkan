@@ -30,6 +30,7 @@ public class KanbanCardService {
         KanbanCard card = getCardById(request.getId());
         card.setTitle(request.getTitle());
         card.setDescription(request.getDescription());
+        card.setNoteLink(request.getNoteLink());
         return kanbanCardRepository.save(card);
     }
 }

@@ -2,8 +2,9 @@ export type KanbanCard = {
   id: number,
   title: string,
   description: string,
-  index: number
-  columnId
+  noteLink: string,
+  index: number,
+  columnId: number
 };
 
 export type KanbanColumn = {

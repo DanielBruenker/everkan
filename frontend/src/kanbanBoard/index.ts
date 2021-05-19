@@ -1,9 +1,9 @@
 import kanbanBoardSlice from './state/kanbanBoardSlice';
-import kanbanCardUISlice from './state/kanbanCardUISlice';
-import { fetchBoardById, moveCard, moveColumn, updateCard } from './state/kanbanBoardThunks';
+import kanbanBoardUISlice from './state/kanbanBoardUISlice';
+import { addCard, fetchBoardById, moveCard, moveColumn, updateCard } from './state/kanbanBoardThunks';
 
-export const kanbanCardUIReducer = kanbanCardUISlice.reducer;
-export const kanbanCardUIActions = kanbanCardUISlice.actions;
+export const kanbanBoardUIReducer = kanbanBoardUISlice.reducer;
+export const kanbanBoardUIActions = kanbanBoardUISlice.actions;
 
 export const kanbanBoardReducer = kanbanBoardSlice.reducer;
 export const kanbanBoardActions = {
@@ -11,5 +11,6 @@ export const kanbanBoardActions = {
   fetchBoardById,
   moveCard,
   moveColumn,
-  updateCard
+  updateCard,
+  addCard
 };

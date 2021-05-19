@@ -1,8 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { everkanApi } from "../../api";
-import { RootState } from '../../store';
-import { KanbanBoard, KanbanCard } from '../../types';
-import { kanbanBoardActions } from '../index';
+import { KanbanBoard, KanbanCard, KanbanColumn } from "../../types";
 import { kanbanBoardUtils } from "../utils/KanbanBoardUtils";
 
 export const fetchBoardById = createAsyncThunk(
@@ -32,7 +30,7 @@ export const moveCard = createAsyncThunk(
       };
       draggableId: string;
     },
-    {dispatch, rejectWithValue}
+    { dispatch, rejectWithValue }
   ) => {
     const { board, source, destination, draggableId } = args;
 
@@ -50,7 +48,7 @@ export const moveCard = createAsyncThunk(
 
     const card = kanbanBoardUtils.findCard(sourceColumn, draggableId);
 
-    if (card == undefined) {
+    if (card === undefined) {
       return rejectWithValue("Card not found!");
     }
 
@@ -62,7 +60,10 @@ export const moveCard = createAsyncThunk(
       destinationColumn,
       destination.index
     );
-    dispatch({type: 'kanbanBoard/setBoard', payload: {board: updatedBoard}});
+    dispatch({
+      type: "kanbanBoard/setBoard",
+      payload: { board: updatedBoard },
+    });
 
     // Move card in backend and update board
     try {
@@ -107,9 +108,12 @@ export const moveColumn = createAsyncThunk(
     const updatedBoard = kanbanBoardUtils.moveColumn(
       board,
       column,
-      destination.index,
+      destination.index
     );
-    dispatch({type: 'kanbanBoard/setBoard', payload: {board: updatedBoard}});
+    dispatch({
+      type: "kanbanBoard/setBoard",
+      payload: { board: updatedBoard },
+    });
 
     try {
       const response = await everkanApi.kanbanBoard.moveColumn(
@@ -130,12 +134,57 @@ export const moveColumn = createAsyncThunk(
 export const updateCard = createAsyncThunk(
   "kanbanCard/update",
   async (
-    args: {board: KanbanBoard, card: KanbanCard},
-    {rejectWithValue, getState }) => {
+    args: { board: KanbanBoard; card: KanbanCard },
+    { rejectWithValue, dispatch }
+  ) => {
     try {
-      const response = await everkanApi.kanbanBoard.updateCard(args.board, args.card);
+      const response = await everkanApi.kanbanBoard.updateCard(
+        args.board,
+        args.card
+      );
+      if (response.status === 200) {
+        dispatch({
+          type: "alert/addAlert",
+          payload: {
+            alert: {
+              message: "Karte wurde erfolgreich aktualisiert.",
+              type: "success",
+            },
+          },
+        });
+      }
       return response.data;
-    } catch(err){
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const addCard = createAsyncThunk(
+  "kanbanCard/addCard",
+  async (
+    args: { board: KanbanBoard; column: KanbanColumn; card: KanbanCard },
+    { rejectWithValue, dispatch }
+  ) => {
+    try {
+      const response = await everkanApi.kanbanBoard.addCard(
+        args.board,
+        args.column,
+        args.card
+      );
+      if (response.status === 200) {
+        dispatch({
+          type: "alert/addAlert",
+          payload: {
+            alert: {
+              message: "Karte wurde erfolgreich angelegt..",
+              type: "success",
+            },
+          },
+        });
+      }
+      return response.data;
+    } catch (err) {
       return rejectWithValue(err.response.data);
     }
   }

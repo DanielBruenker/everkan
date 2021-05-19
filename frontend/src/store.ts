@@ -1,18 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
-
-import { authenticationReducer } from './authentication/state/authenticationReducer';
+import { alertReducer } from './alert';
+import { authenticationReducer } from './authentication';
 import { kanbanBoardReducer } from './kanbanBoard';
-import { kanbanCardUIReducer } from './kanbanBoard';
+import { kanbanBoardUIReducer } from './kanbanBoard';
 
 const loggerMiddleware = createLogger();
 
 export const store = configureStore({
   reducer: {
     kanbanBoard: kanbanBoardReducer,
-    kanbanCardUI: kanbanCardUIReducer,
-    authentication: authenticationReducer
+    kanbanBoardUI: kanbanBoardUIReducer,
+    authentication: authenticationReducer,
+    alert: alertReducer
   },
   middleware: [
     thunkMiddleware,

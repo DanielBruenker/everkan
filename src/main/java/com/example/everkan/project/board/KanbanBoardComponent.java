@@ -68,5 +68,14 @@ public class KanbanBoardComponent {
             @RequestBody KanbanCardRequest request) {
         return kanbanBoardService.updateCard(boardId, columnId, cardId, request);
     }
+
+
+    @PostMapping(path = "/{boardId}/column/{columnId}/cards")
+    public KanbanBoard addCard(
+            @PathVariable("boardId") Long boardId,
+            @PathVariable("columnId") Long columnId,
+            @RequestBody KanbanCardRequest request) {
+        return kanbanBoardService.addCard(boardId, columnId, request);
+    }
 }
 

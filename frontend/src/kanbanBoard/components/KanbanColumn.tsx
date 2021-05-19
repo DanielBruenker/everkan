@@ -1,63 +1,81 @@
-import { Draggable, Droppable } from 'react-beautiful-dnd';
-import KanbanCard from './KanbanCard';
+import { Grid, IconButton } from "@material-ui/core";
+import { Draggable, Droppable } from "react-beautiful-dnd";
+import { useDispatch } from "react-redux";
+import { kanbanBoardUIActions } from "../index";
+import KanbanCard from "./KanbanCard";
 
-import './KanbanColumn.css';
+import AddIcon from "@material-ui/icons/Add";
 
-type ColumnPropTypes = {
-  column: {
-    id: number,
-    title: string,
-    cards: {
-      id: number,
-      title: string,
-      description: string
-    }[]
-  },
-  index: number,
-  onColumnTitleChange: any
+import "./KanbanColumn.css";
+
+import { KanbanColumn as KanbanColumnType } from "../../types";
+
+interface KanbanColumnProps {
+  column: KanbanColumnType;
+  index: number;
+  onColumnTitleChange: any;
 }
 
-const KanbanColumnHeader = (
-  props: {
-    columnTitle: string,
-    onColumnTitleChange: any
-  }) => {
+interface KanbanColumnHeaderProps {
+  columnTitle: string;
+}
 
+const KanbanColumnHeader = (props: KanbanColumnHeaderProps) => {
   return (
     <div className="columnHeader">
-      <h2 className="title">
-        {props.columnTitle}</h2>
+      <h2 className="title">{props.columnTitle}</h2>
     </div>
   );
 };
 
+const KanbanColumn = function Column(props: KanbanColumnProps) {
+  const dispatch = useDispatch();
 
-const KanbanColumn = function Column(props: ColumnPropTypes) {
+  const handleOnClickOnAddNewKanbanCardDialog = (event) => {
+    dispatch(
+      kanbanBoardUIActions.showAddNewKanbanCardDialog({ column: props.column })
+    );
+  };
 
-  const onColumnTitleChange = (event: any) => {
-    props.onColumnTitleChange(props.column, event.target.value);
+  const renderCards = () => {
+    return props.column.cards.map((card: any, index: number) => (
+      <KanbanCard key={card.id} card={card} index={index} />
+    ));
   };
 
   return (
-    <Draggable draggableId={'column-' + props.column.id} index={props.index}>
+    <Draggable draggableId={"column-" + props.column.id} index={props.index}>
       {(provided, snapshot) => (
-        <div className={snapshot.isDragging ? "columnDragging" : "column"}
+        <div
+          className={snapshot.isDragging ? "columnDragging" : "column"}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          ref={provided.innerRef}>
-          <KanbanColumnHeader
-            onColumnTitleChange={onColumnTitleChange}
-            columnTitle={props.column.title}/>
-          <Droppable droppableId={'column-' + props.column.id} type="card">
+          ref={provided.innerRef}
+        >
+          <KanbanColumnHeader columnTitle={props.column.title} />
+          <Droppable droppableId={"column-" + props.column.id} type="card">
             {(provided, snapshot) => (
-              <div className={snapshot.isDraggingOver ? "taskListOnDraggingOver" : "taskList"}
+              <div
+                className={
+                  snapshot.isDraggingOver
+                    ? "taskListOnDraggingOver"
+                    : "taskList"
+                }
                 ref={provided.innerRef}
-                {...provided.droppableProps}>
-                {props.column.cards.map(
-                  (card: any, index: number) =>
-                    <KanbanCard key={card.id} card={card} index={index}/>
-                )}
+                {...provided.droppableProps}
+              >
+                {renderCards()}
                 {provided.placeholder}
+                <Grid
+                  container
+                  direction="row"
+                  justify="center"
+                  alignItems="center"
+                >
+                  <IconButton onClick={handleOnClickOnAddNewKanbanCardDialog}>
+                    <AddIcon />
+                  </IconButton>
+                </Grid>
               </div>
             )}
           </Droppable>

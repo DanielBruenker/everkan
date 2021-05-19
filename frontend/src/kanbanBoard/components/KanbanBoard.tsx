@@ -1,16 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
-import { kanbanBoardActions } from '../index';
+import { kanbanBoardActions } from "../index";
 import KanbanColumn from "./KanbanColumn";
 
 const KanbanBoard = () => {
   const board = useSelector((state: RootState) => state.kanbanBoard);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-  }, [board]);
+  useEffect(() => {}, [board]);
 
   /**
    * This function will be called if any object was dragged.
@@ -61,6 +60,23 @@ const KanbanBoard = () => {
     }
   };
 
+  /**
+   * This function renders the Kanban-Board columns.
+   *
+   */
+  const renderColumns = () => {
+    return board.columns.map((column: any, index: number) => {
+      return (
+        <KanbanColumn
+          key={column.id}
+          column={column}
+          index={index}
+          onColumnTitleChange={(event) => console.log(event)}
+        />
+      );
+    });
+  };
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="all-columns" direction="horizontal" type="column">
@@ -70,16 +86,7 @@ const KanbanBoard = () => {
             ref={provided.innerRef}
             className="column-container"
           >
-            {board.columns.map((column: any, index: number) => {
-              return (
-                <KanbanColumn
-                  key={column.id}
-                  column={column}
-                  index={index}
-                  onColumnTitleChange={(event) => console.log(event)}
-                />
-              );
-            })}
+            {renderColumns()}
             {provided.placeholder}
           </div>
         )}

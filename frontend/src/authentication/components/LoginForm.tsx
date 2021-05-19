@@ -1,4 +1,7 @@
 import { Button, emphasize, makeStyles, TextField } from "@material-ui/core";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { authenticationActions } from "../index";
 
 const useStyles = makeStyles({
   form: {
@@ -20,18 +23,31 @@ const useStyles = makeStyles({
   },
 });
 
-const LoginForm = (props) => {
+const LoginForm = () => {
   const classes = useStyles();
 
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (email && password) {
+      dispatch(
+        authenticationActions.login({ username: email, password: password })
+      );
+    }
+  };
+
   return (
-    <form onSubmit={props.onSubmit} className={classes.form}>
+    <form onSubmit={handleSubmit} className={classes.form}>
       <div className={classes.formGroup}>
         <TextField
           style={{ width: "100%" }}
           label="Email"
           id="email"
-          value={props.email}
-          onChange={props.onChangeEmailInput}
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
           type="email"
         />
       </div>
@@ -40,8 +56,8 @@ const LoginForm = (props) => {
           style={{ width: "100%" }}
           label="Password"
           id="password"
-          value={props.password}
-          onChange={props.onChangePasswordInput}
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
           type="password"
         />
       </div>

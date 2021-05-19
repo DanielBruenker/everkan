@@ -1,15 +1,15 @@
 import { AccountCircle } from "@material-ui/icons";
 import React, { useEffect } from "react";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 // Material UI - Utils
 import {
   createStyles,
   CssBaseline,
-  makeStyles,
+  makeStyles, Snackbar,
   Theme,
-  useTheme,
-} from "@material-ui/core";
+  useTheme
+} from '@material-ui/core';
 
 // Material Ui - Components
 import {
@@ -27,8 +27,10 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import clsx from "clsx";
-import { authenticationActions } from "../../authentication/state/authenticationActions";
+import CustomAlert from '../../alert/components/customAlert';
+import { authenticationActions } from '../../authentication';
 import { kanbanBoardActions } from '../../kanbanBoard';
+import AddNewKanbanCardDialog from '../../kanbanBoard/components/AddNewKanbanCardDialog';
 
 import KanbanBoard from "../../kanbanBoard/components/KanbanBoard";
 import KanbanCardDialog from '../../kanbanBoard/components/KanbanCardDialog';
@@ -213,9 +215,11 @@ const HomePage = () => {
         </div>
       </Drawer>
       <main className={classes.content}>
+        <CustomAlert />
         <div className={classes.toolbar} />
         <KanbanBoard />
         <KanbanCardDialog />
+        <AddNewKanbanCardDialog />
       </main>
     </div>
   );

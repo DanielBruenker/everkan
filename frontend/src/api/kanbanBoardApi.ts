@@ -1,4 +1,4 @@
-import { KanbanBoard, KanbanCard } from '../types';
+import { KanbanBoard, KanbanCard, KanbanColumn } from '../types';
 import { authHeader } from "./auth-header";
 import { api } from "./index";
 
@@ -88,4 +88,20 @@ export async function updateCard(
     },
   };
   return await api.put(url, data, config);
+}
+
+export async function addCard(
+  kanbanBoard: KanbanBoard,
+  column: KanbanColumn,
+  card: KanbanCard
+) {
+  const url = "/board/" + kanbanBoard.id + "/column/" + column.id + "/cards";
+  const data = JSON.stringify(card);
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      ...authHeader(),
+    },
+  };
+  return await api.post(url, data, config);
 }

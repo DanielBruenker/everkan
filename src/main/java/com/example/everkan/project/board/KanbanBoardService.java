@@ -90,4 +90,18 @@ public class KanbanBoardService {
         kanbanCardService.update(request);
         return board;
     }
+
+    @Transactional
+    public KanbanBoard addCard(Long boardId, Long columnId, KanbanCardRequest request) {
+        KanbanBoard board = getKanbanBoardById(boardId);
+        KanbanColumn column = kanbanColumnService.getColumnById(columnId);
+        KanbanCard card = new KanbanCard(
+                request.getTitle(),
+                request.getDescription(),
+                request.getNoteLink()
+        );
+        column.addCard(card);
+        kanbanColumnService.update(column);
+        return board;
+    }
 }

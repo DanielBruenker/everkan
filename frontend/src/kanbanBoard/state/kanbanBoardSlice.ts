@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { KanbanColumn } from "../../types";
-import { kanbanBoardUtils } from "../utils/KanbanBoardUtils";
-import { fetchBoardById, moveCard, moveColumn, updateCard } from './kanbanBoardThunks';
+import { addCard, fetchBoardById, moveCard, moveColumn, updateCard } from './kanbanBoardThunks';
 
 const initialState = {
   id: 0,
@@ -22,11 +21,19 @@ const kanbanBoardSlice = createSlice({
       state.id = action.payload.id;
       state.columns = action.payload.columns;
     },
+    [moveColumn.fulfilled.type]: (state, action) => {
+      state.id = action.payload.id;
+      state.columns = action.payload.columns;
+    },
     [fetchBoardById.fulfilled.type]: (state, action) => {
       state.id = action.payload.id;
       state.columns = action.payload.columns;
     },
     [updateCard.fulfilled.type]: (state, action) => {
+      state.id = action.payload.id;
+      state.columns = action.payload.columns;
+    },
+    [addCard.fulfilled.type]: (state, action) => {
       state.id = action.payload.id;
       state.columns = action.payload.columns;
     }

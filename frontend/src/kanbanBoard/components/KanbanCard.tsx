@@ -1,23 +1,29 @@
-import { Card, CardContent, CardHeader } from "@material-ui/core";
-import { useEffect } from 'react';
+import { useDispatch } from "react-redux";
 import { Draggable } from "react-beautiful-dnd";
 
+import {
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  IconButton,
+} from "@material-ui/core";
+
+import EvernoteIcon from "../icons/evernoteIcon";
 import "./KanbanCard.css";
-import { useDispatch } from 'react-redux';
-import { KanbanCard } from '../../types';
-import { kanbanCardUIActions } from '../index';
+import { kanbanBoardUIActions } from "../index";
+import { KanbanCard as KanbanCardType } from "../../types";
 
-type TaskPropsTypes = {
-  card: KanbanCard,
+interface KanbanCardProps {
+  card: KanbanCardType;
   index: number;
-};
+}
 
-const KanbanCard = function (props: TaskPropsTypes) {
-
+const KanbanCard = function (props: KanbanCardProps) {
   const dispatch = useDispatch();
 
-  const handleOnClick = event => {
-    dispatch(kanbanCardUIActions.showKanbanCardDialog({card: props.card}))
+  const handleOnClick = () => {
+    dispatch(kanbanBoardUIActions.showKanbanCardDialog({ card: props.card }));
   };
 
   return (
@@ -26,12 +32,22 @@ const KanbanCard = function (props: TaskPropsTypes) {
         <Card
           {...provided.dragHandleProps}
           {...provided.draggableProps}
-          onClick={handleOnClick}
           ref={provided.innerRef}
+          onClick={handleOnClick}
           className={snapshot.isDragging ? "containerDragging" : "container"}
         >
           <CardHeader title={props.card.title} />
           <CardContent>{props.card.description}</CardContent>
+          <CardActions disableSpacing>
+            {props.card.noteLink !== "" ? (
+              <IconButton
+                onClick={() => window.open(props.card.noteLink, "_blank")}
+                aria-label="go to evernote"
+              >
+                <EvernoteIcon />
+              </IconButton>
+            ) : null}
+          </CardActions>
         </Card>
       )}
     </Draggable>

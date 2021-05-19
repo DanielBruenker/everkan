@@ -35,7 +35,7 @@ public class KanbanBoard {
     }
 
     public static KanbanBoard creatDefaultBoard() {
-        KanbanCard kanbanCard1 = new KanbanCard("Card 1", "");
+        KanbanCard kanbanCard1 = new KanbanCard("Card 1", "", "");
 
         KanbanColumn column1 = new KanbanColumn("To Do");
         KanbanColumn column2 = new KanbanColumn("In Progress");

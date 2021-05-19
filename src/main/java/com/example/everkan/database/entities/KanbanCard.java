@@ -21,7 +21,9 @@ public class KanbanCard {
     private Long id;
     private String title;
     private String description;
+    private String noteLink;
     private Integer index;
+
 
     @Column(name = "column_id", insertable = false, updatable = false)
     private Long columnId;
@@ -34,9 +36,10 @@ public class KanbanCard {
     public KanbanCard() {
     }
 
-    public KanbanCard(String title, String description) {
+    public KanbanCard(String title, String description, String noteLink) {
         this.title = title;
         this.description = description;
+        this.noteLink = noteLink;
     }
 
     public Long getId() {
@@ -87,4 +90,11 @@ public class KanbanCard {
         this.columnId = columnId;
     }
 
+    public String getNoteLink() {
+        return noteLink;
+    }
+
+    public void setNoteLink(String noteLink) {
+        this.noteLink = noteLink;
+    }
 }

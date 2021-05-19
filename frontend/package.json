@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.4",
+    "@material-ui/lab": "^4.0.0-alpha.58",
     "@reduxjs/toolkit": "^1.5.1",
     "axios": "^0.21.1",
     "cypress": "^4.5.0",
@@ -21,7 +22,7 @@
   "scripts": {
     "watch": "webpack -d --watch",
     "webpack-dev-server": "webpack-dev-server",
-    "dev": "webpack-dev-server --mode=development --port 3000",
+    "dev": "webpack-dev-server --mode=development --port 3000 --host 0.0.0.0",
     "prod-build": "NODE_ENV=production webpack -d -p --mode=production"
   },
   "eslintConfig": {

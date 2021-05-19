@@ -5,7 +5,7 @@ export const kanbanBoardUtils = {
   moveColumn,
   findColumn,
   findCard,
-  updateCard
+  updateCard,
 };
 
 /**
@@ -57,7 +57,7 @@ const addCardToColumn = (
 function moveColumn(
   board: KanbanBoard,
   column: KanbanColumn,
-  newPosition: number,
+  newPosition: number
 ) {
   // Copy column order from columnOrder - state
   const newColumnOrder = Array.from(board.columns);
@@ -94,7 +94,6 @@ function moveCard(
   destinationColumn: KanbanColumn,
   newPosition: number
 ): KanbanBoard {
-
   const columns = Array.from(board.columns);
 
   // Copy columns from columns
@@ -102,11 +101,7 @@ function moveCard(
 
   if (sourceColumn.id === destinationColumn.id) {
     let newSourceColumn = removeCardFromColumn(sourceColumn, card.index);
-    newSourceColumn = addCardToColumn(
-      newSourceColumn,
-      card,
-      newPosition
-    );
+    newSourceColumn = addCardToColumn(newSourceColumn, card, newPosition);
 
     // Update the index of each card
     newSourceColumn = reindexCards(newSourceColumn);
@@ -136,18 +131,18 @@ function moveCard(
   };
 }
 
-
-function updateCard(board: KanbanBoard, newCard: KanbanCard)  {
-
+function updateCard(board: KanbanBoard, newCard: KanbanCard) {
   // Find column with to card
-  const column = board.columns.find((x: { id: number }) => x.id === newCard.columnId);
+  const column = board.columns.find(
+    (x: { id: number }) => x.id === newCard.columnId
+  );
 
-  if(column == undefined){
+  if (column === undefined) {
     return board;
   }
 
   const card = column.cards.find((x: { id: number }) => x.id === newCard.id);
-  if(card == undefined){
+  if (card === undefined) {
     return board;
   }
 
@@ -159,10 +154,9 @@ function updateCard(board: KanbanBoard, newCard: KanbanCard)  {
 
   return {
     ...board,
-    columns: newColumns
+    columns: newColumns,
   };
 }
-
 
 function reindexCards(column: KanbanColumn) {
   column.cards.map(
