@@ -1,19 +1,15 @@
-import { Button } from 'primereact/button';
+import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from "../../store";
+import EvernoteIcon from "../icons/evernoteIcon";
 import { kanbanBoardActions, kanbanBoardUIActions } from "../index";
 
-
 const AddNewKanbanCardDialogHeader: React.FC = () => {
-  return (
-    <div>
-      Neue Aufgabe
-    </div>
-  );
+  return <div>Neue Aufgabe</div>;
 };
 
 interface AddNewKanbanCardDialogFooterProps {
@@ -69,7 +65,6 @@ const AddNewKanbanCardDialog: React.FC = () => {
     setDescription("");
   };
 
-
   return (
     <Dialog
       header={<AddNewKanbanCardDialogHeader />}
@@ -101,13 +96,20 @@ const AddNewKanbanCardDialog: React.FC = () => {
           />
         </div>
         <div className="p-col-12">
-          <div className="p-inputgroup" style={{width: "400px"}}>
+          <div className="p-inputgroup" style={{ width: "400px" }}>
+            <span className="p-inputgroup-addon">
+              <EvernoteIcon />
+            </span>
             <InputText
               placeholder="Link zu Evernote Notiz"
               value={noteLink}
               onChange={(e) => setNoteLink(e.target.value)}
             />
-            <Button label="Öffnen" disabled={noteLink.length === 0} onClick={() => window.open(noteLink, "_blank")}/>
+            <Button
+              label="Öffnen"
+              disabled={noteLink.length === 0}
+              onClick={() => window.open(noteLink, "_blank")}
+            />
           </div>
         </div>
       </div>
