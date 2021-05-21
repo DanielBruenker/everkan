@@ -5,6 +5,7 @@ import { InputTextarea } from "primereact/inputtextarea";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from "../../store";
+import EvernoteIcon from "../icons/evernoteIcon";
 import { kanbanBoardActions, kanbanBoardUIActions } from "../index";
 
 interface KanbanCardDialogFooterProps {
@@ -12,7 +13,10 @@ interface KanbanCardDialogFooterProps {
   onClickOnCancel: (event) => void;
 }
 
-const KanbanCardDialogFooter: React.FC<KanbanCardDialogFooterProps> = ({onClickOnCancel, onClickOnSave}) => {
+const KanbanCardDialogFooter: React.FC<KanbanCardDialogFooterProps> = ({
+  onClickOnCancel,
+  onClickOnSave,
+}) => {
   return (
     <div>
       <Button label="Abbrechen" icon="pi pi-times" onClick={onClickOnCancel} />
@@ -99,13 +103,20 @@ const KanbanCardDialog: React.FC = () => {
           />
         </div>
         <div className="p-col-12">
-          <div className="p-inputgroup" style={{width: "400px"}}>
+          <div className="p-inputgroup" style={{ width: "400px" }}>
+            <span className="p-inputgroup-addon">
+              <EvernoteIcon />
+            </span>
             <InputText
               placeholder="Link zu Evernote Notiz"
               value={noteLink}
               onChange={(e) => setNoteLink(e.target.value)}
             />
-            <Button label="Öffnen" disabled={noteLink.length === 0} onClick={() => window.open(noteLink, "_blank")}/>
+            <Button
+              label="Öffnen"
+              disabled={noteLink.length === 0}
+              onClick={() => window.open(noteLink, "_blank")}
+            />
           </div>
         </div>
       </div>
