@@ -1,26 +1,16 @@
-import { Grid, Typography } from "@material-ui/core";
+import React from "react";
 import LoginForm from "../../authentication/components/LoginForm";
 
-const LoginPage = () => {
-
+const LoginPage: React.FC = () => {
   return (
-    <Grid
-      container
-      direction="row"
-      justify="center"
-      alignItems="center"
-      spacing={3}
-      className="login-form-container"
-    >
-      <Grid className="login-form-wrapper">
-        <Grid justify="center" alignItems="center">
-          <Typography variant="h4" component="h2">
-            Anmelden
-          </Typography>
-        </Grid>
+    <div className="p-grid p-justify-center p-align-center">
+      <div className="login-form-wrapper">
+        <div>
+            <h4>Anmelden</h4>
+        </div>
         <LoginForm />
-      </Grid>
-    </Grid>
+      </div>
+    </div>
   );
 };
 

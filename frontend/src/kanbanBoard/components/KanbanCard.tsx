@@ -1,18 +1,11 @@
+import { Card } from 'primereact/card';
 import React from 'react';
 import { Draggable } from "react-beautiful-dnd";
-
-import {
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  IconButton,
-} from "@material-ui/core";
 import { useDispatch } from 'react-redux';
-import EvernoteIcon from "../icons/evernoteIcon";
-import "./KanbanCard.css";
 import { kanbanBoardUIActions } from "../index";
 import { KanbanCard as KanbanCardType } from "../../types";
+
+import "./KanbanCard.css";
 
 interface KanbanCardProps {
   card: KanbanCardType;
@@ -29,26 +22,18 @@ const KanbanCard: React.FC<KanbanCardProps> = ({ card, index }) =>  {
   return (
     <Draggable draggableId={"card-" + card.id} index={index}>
       {(provided, snapshot) => (
-        <Card
+        <div
           {...provided.dragHandleProps}
           {...provided.draggableProps}
           ref={provided.innerRef}
           onClick={handleOnClick}
-          className={snapshot.isDragging ? "containerDragging" : "container"}
-        >
-          <CardHeader title={card.title} />
-          <CardContent>{card.description}</CardContent>
-          <CardActions disableSpacing>
-            {card.noteLink !== "" ? (
-              <IconButton
-                onClick={() => window.open(card.noteLink, "_blank")}
-                aria-label="go to evernote"
-              >
-                <EvernoteIcon />
-              </IconButton>
-            ) : null}
-          </CardActions>
-        </Card>
+          className={snapshot.isDragging ? "containerDragging" : "container"}>
+          <Card title={card.title} style={{wordWrap: "break-word"}}>
+            <div>
+              <p className="p-m-0" style={{lineHeight: '1.5'}}>{card.description}</p>
+            </div>
+          </Card>
+        </div>
       )}
     </Draggable>
   );

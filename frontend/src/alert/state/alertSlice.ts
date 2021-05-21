@@ -1,10 +1,9 @@
-import { Color } from "@material-ui/lab";
 import { createSlice } from "@reduxjs/toolkit";
 
 interface alertState {
   alerts: {
     message: string;
-    type: Color;
+    type: string;
     visible: boolean;
   }[];
 }
@@ -21,7 +20,7 @@ const alertSlice = createSlice({
       state.alerts.push({
         message: action.payload.alert.message,
         type: action.payload.alert.type,
-        visible: true,
+        visible: true
       });
     },
     hideAlert(state, action) {

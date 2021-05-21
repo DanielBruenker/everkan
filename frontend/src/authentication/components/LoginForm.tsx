@@ -1,30 +1,11 @@
-import { Button, emphasize, makeStyles, TextField } from "@material-ui/core";
+import { Button } from 'primereact/button';
+import { InputText } from "primereact/inputtext";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { authenticationActions } from "../index";
 
-const useStyles = makeStyles({
-  form: {
-    width: "300px",
-  },
-  formGroup: {
-    margin: "20px 0 0 0",
-  },
-  submitButton: {
-    width: "100%",
-    margin: "20px 0 0 0",
-    background: "#00a82d",
-    "&:hover, &:focus": {
-      background: "#05611d",
-    },
-    "&:active": {
-      background: "#05611d",
-    },
-  },
-});
 
 const LoginForm: React.FC = () => {
-  const classes = useStyles();
 
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
@@ -33,28 +14,32 @@ const LoginForm: React.FC = () => {
   const handleSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
     if (email && password) {
-      dispatch(
-        authenticationActions.login({ username: email, password: password })
-      );
+      try {
+        dispatch(
+          authenticationActions.login({ username: email, password: password })
+        );
+      } catch (err){
+        console.log(err);
+      }
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className={classes.form}>
-      <div className={classes.formGroup}>
-        <TextField
+    <form onSubmit={handleSubmit}>
+      <div>
+        <InputText
           style={{ width: "100%" }}
-          label="Email"
+          placeholder="Email"
           id="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           type="email"
         />
       </div>
-      <div className={classes.formGroup}>
-        <TextField
+      <div>
+        <InputText
           style={{ width: "100%" }}
-          label="Password"
+          placeholder="Password"
           id="password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
@@ -63,9 +48,7 @@ const LoginForm: React.FC = () => {
       </div>
       <div>
         <Button
-          className={classes.submitButton}
           type="submit"
-          variant="contained"
           color="primary"
         >
           Anmelden

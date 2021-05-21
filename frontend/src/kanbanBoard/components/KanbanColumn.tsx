@@ -1,11 +1,9 @@
-import { Grid, IconButton } from "@material-ui/core";
+import { Button } from 'primereact/button';
 import React from 'react';
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
 import { kanbanBoardUIActions } from "../index";
 import KanbanCard from "./KanbanCard";
-
-import AddIcon from "@material-ui/icons/Add";
 
 import "./KanbanColumn.css";
 
@@ -28,7 +26,7 @@ const KanbanColumnHeader: React.FC<KanbanColumnHeaderProps> = ({
   return (
     <div className="columnHeader">
       {children}
-      <h2 className="title">{columnTitle}</h2>
+      <h4 className="title">{columnTitle}</h4>
     </div>
   );
 };
@@ -36,7 +34,7 @@ const KanbanColumnHeader: React.FC<KanbanColumnHeaderProps> = ({
 const KanbanColumn: React.FC<KanbanColumnProps> = ({ column, index }) => {
   const dispatch = useDispatch();
 
-  const handleOnClickOnAddNewKanbanCardDialog = () => {
+  const handleOnClickOnAddNewKanbanCard = () => {
     dispatch(
       kanbanBoardUIActions.showAddNewKanbanCardDialog({ column: column })
     );
@@ -71,16 +69,12 @@ const KanbanColumn: React.FC<KanbanColumnProps> = ({ column, index }) => {
               >
                 {renderCards()}
                 {provided.placeholder}
-                <Grid
-                  container
-                  direction="row"
-                  justify="center"
-                  alignItems="center"
-                >
-                  <IconButton onClick={handleOnClickOnAddNewKanbanCardDialog}>
-                    <AddIcon />
-                  </IconButton>
-                </Grid>
+               <div className="p-grid p-justify-center p-mt-5">
+                 <Button icon="pi pi-plus"
+                         style={{'fontSize': '2em'}}
+                         className="p-button-rounded p-button-text"
+                         onClick={handleOnClickOnAddNewKanbanCard}/>
+               </div>
               </div>
             )}
           </Droppable>

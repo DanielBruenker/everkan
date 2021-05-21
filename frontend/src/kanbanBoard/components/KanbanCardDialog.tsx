@@ -1,63 +1,35 @@
+import { Button } from "primereact/button";
+import { Dialog } from "primereact/dialog";
+import { InputText } from "primereact/inputtext";
+import { InputTextarea } from "primereact/inputtextarea";
 import React, { useEffect, useState } from "react";
-
-import {
-  createStyles,
-  IconButton,
-  Theme,
-  Typography,
-  withStyles,
-  WithStyles,
-  TextField,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  Button,
-} from "@material-ui/core";
-
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-
-import CloseIcon from "@material-ui/icons/Close";
-import { useDispatch } from 'react-redux';
-import { useTypedSelector } from '../../store';
+import { useDispatch } from "react-redux";
+import { useTypedSelector } from "../../store";
 import { kanbanBoardActions, kanbanBoardUIActions } from "../index";
 
-const styles = (theme: Theme) =>
-  createStyles({
-    root: {
-      margin: 0,
-      padding: theme.spacing(2),
-    },
-    closeButton: {
-      position: "absolute",
-      right: theme.spacing(1),
-      top: theme.spacing(1),
-      color: theme.palette.grey[500],
-    },
-  });
-
-export interface DialogTitleProps extends WithStyles<typeof styles> {
-  id: string;
-  children: React.ReactNode;
-  onClose: () => void;
+interface KanbanCardDialogFooterProps {
+  onClickOnSave: (event) => void;
+  onClickOnCancel: (event) => void;
 }
 
-const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
-  const { children, classes, onClose, ...other } = props;
+const KanbanCardDialogFooter: React.FC<KanbanCardDialogFooterProps> = ({onClickOnCancel, onClickOnSave}) => {
   return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          className={classes.closeButton}
-          onClick={onClose}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </MuiDialogTitle>
+    <div>
+      <Button label="Abbrechen" icon="pi pi-times" onClick={onClickOnCancel} />
+      <Button label="Übernehmen" icon="pi pi-check" onClick={onClickOnSave} />
+    </div>
   );
-});
+};
+
+interface KanbanCardDialogHeaderProps {
+  title: string;
+}
+
+const KanbanCardDialogHeader: React.FC<KanbanCardDialogHeaderProps> = ({
+  title,
+}) => {
+  return <div>{title}</div>;
+};
 
 const KanbanCardDialog: React.FC = () => {
   const { showKanbanCardDialog, selectedCard } = useTypedSelector(
@@ -96,58 +68,48 @@ const KanbanCardDialog: React.FC = () => {
   const [noteLink, setNoteLink] = useState<string>("");
 
   return (
-    <div>
-      <Dialog open={showKanbanCardDialog} aria-labelledby="form-dialog-title">
-        <DialogTitle id="kanban-card-dialog-title" onClose={handleOnClose}>
-          {title}
-        </DialogTitle>
-        <DialogContent dividers={true}>
-          <TextField
-            autoFocus
+    <Dialog
+      header={<KanbanCardDialogHeader title={title} />}
+      footer={
+        <KanbanCardDialogFooter
+          onClickOnCancel={handleOnClose}
+          onClickOnSave={handelOnSave}
+        />
+      }
+      visible={showKanbanCardDialog}
+      className="layout-kanban-card-dialog"
+      modal
+      onHide={handleOnClose}
+    >
+      <div className="p-grid p-mt-2">
+        <div className="p-col-12">
+          <InputText
+            className="title-input"
+            placeholder="Aufgabe"
             value={title}
-            onChange={(event) => setTitle(event.target.value)}
-            margin="dense"
-            id="title"
-            label="Bezeichnung"
-            type="text"
-            variant="outlined"
-            fullWidth
+            onChange={(e) => setTitle(e.target.value)}
           />
-          <TextField
-            autoFocus
+        </div>
+        <div className="p-col-12">
+          <InputTextarea
+            autoResize={false}
+            placeholder="Keine Beschreibung zu dieser Karte"
             value={description}
-            onChange={(event) => setDescription(event.target.value)}
-            margin="dense"
-            id="title"
-            label="Beschreibung"
-            type="text"
-            multiline={true}
-            rows={5}
-            variant="outlined"
-            fullWidth
+            onChange={(e) => setDescription(e.target.value)}
           />
-          <TextField
-            autoFocus
-            value={noteLink}
-            onChange={(event) => setNoteLink(event.target.value)}
-            margin="dense"
-            id="title"
-            label="Link zur Evernote Notiz"
-            type="text"
-            variant="outlined"
-            fullWidth
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button color="primary" onClick={handleOnClose}>
-            Abbrechen
-          </Button>
-          <Button color="primary" onClick={handelOnSave}>
-            Übernehmen
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+        </div>
+        <div className="p-col-12">
+          <div className="p-inputgroup" style={{width: "400px"}}>
+            <InputText
+              placeholder="Link zu Evernote Notiz"
+              value={noteLink}
+              onChange={(e) => setNoteLink(e.target.value)}
+            />
+            <Button label="Öffnen" disabled={noteLink.length === 0} onClick={() => window.open(noteLink, "_blank")}/>
+          </div>
+        </div>
+      </div>
+    </Dialog>
   );
 };
 
