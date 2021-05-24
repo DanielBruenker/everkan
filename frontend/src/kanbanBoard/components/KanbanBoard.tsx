@@ -84,7 +84,7 @@ const KanbanBoard: React.FC = () => {
           <div
             {...provided.droppableProps}
             ref={provided.innerRef}
-            className="column-container"
+            className="kanban-board"
           >
             {renderColumns()}
             {provided.placeholder}

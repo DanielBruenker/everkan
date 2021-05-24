@@ -1,8 +1,11 @@
+
+import { PrimeIcons } from 'primereact/api';
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
-import React, { useEffect, useState } from "react";
+import { Menu } from 'primereact/menu';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from "../../store";
 import EvernoteIcon from "../icons/evernoteIcon";
@@ -25,14 +28,48 @@ const KanbanCardDialogFooter: React.FC<KanbanCardDialogFooterProps> = ({
   );
 };
 
-interface KanbanCardDialogHeaderProps {
-  title: string;
+
+interface DialogMenuProps {
+  //onClickOnDelete: (event) => void;
 }
 
-const KanbanCardDialogHeader: React.FC<KanbanCardDialogHeaderProps> = ({
-  title,
-}) => {
-  return <div>{title}</div>;
+
+const DialogMenu: React.FC<DialogMenuProps> = () => {
+
+  const items = [
+    {
+      label: "In den Papierkorb legen",
+      icon: PrimeIcons.TRASH,
+      command: (event) => {
+      },
+    },
+  ];
+
+  const onClickOpenMenu= (event) => {
+    if (!menu.current) {
+      return;
+    }
+    menu.current.toggle(event);
+  };
+
+
+  const menu = useRef<Menu>(null);
+
+  return(
+    <React.Fragment>
+      <Menu
+        model={items}
+        popup
+        ref={menu}
+        id="kanbanCardDialogMenu"
+      />
+      <Button icon="pi pi-ellipsis-h"
+              style={{'fontSize': '2em'}}
+              onClick={onClickOpenMenu}
+              className="p-button-rounded p-button-text" />
+
+    </React.Fragment>
+  );
 };
 
 const KanbanCardDialog: React.FC = () => {
@@ -73,7 +110,7 @@ const KanbanCardDialog: React.FC = () => {
 
   return (
     <Dialog
-      header={<KanbanCardDialogHeader title={title} />}
+      header={title}
       footer={
         <KanbanCardDialogFooter
           onClickOnCancel={handleOnClose}
@@ -82,8 +119,13 @@ const KanbanCardDialog: React.FC = () => {
       }
       visible={showKanbanCardDialog}
       className="layout-kanban-card-dialog"
-      modal
+      icons={
+       <React.Fragment>
+         <DialogMenu />
+       </React.Fragment>
+      }
       onHide={handleOnClose}
+      draggable={false}
     >
       <div className="p-grid p-mt-2">
         <div className="p-col-12">

@@ -1,5 +1,6 @@
 import { Button } from 'primereact/button';
 import { InputText } from "primereact/inputtext";
+import {Password} from 'primereact/password';
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { authenticationActions } from "../index";
@@ -25,10 +26,9 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="login-form" onSubmit={handleSubmit}>
       <div>
         <InputText
-          style={{ width: "100%" }}
           placeholder="Email"
           id="email"
           value={email}
@@ -37,9 +37,10 @@ const LoginForm: React.FC = () => {
         />
       </div>
       <div>
-        <InputText
-          style={{ width: "100%" }}
+        <Password
           placeholder="Password"
+          feedback={false}
+          toggleMask
           id="password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
@@ -48,11 +49,10 @@ const LoginForm: React.FC = () => {
       </div>
       <div>
         <Button
+          id="submitButton"
           type="submit"
           color="primary"
-        >
-          Anmelden
-        </Button>
+          label="Anmelden" />
       </div>
     </form>
   );

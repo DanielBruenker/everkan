@@ -1,0 +1,49 @@
+.kanban-column {
+
+  overflow: hidden;
+  width: 300px;
+  background: white;
+  height: 90%;
+  margin: 0 8px 0 8px;
+
+  .header {
+    background: lightgray;
+
+    .title {
+      margin: 0;
+      padding: 16px;
+      text-align: center;
+    }
+  }
+
+  .content {
+    padding: 8px;
+    height: 100%;
+    transition: background-color 0.2s ease;
+  }
+
+  .content-dragging-over {
+    padding: 8px;
+    background: #00a82d;
+    height: 100%;
+    transition: background-color 0.2s ease;
+  }
+}
+
+.kanban-column-dragging {
+
+  width: 300px;
+  border: 3px solid #00a82d;
+  height: 80%;
+  background: white;
+
+  .header {
+    background: lightgray;
+
+    .title {
+      margin: 0;
+      padding: 16px;
+      text-align: center;
+    }
+  }
+}

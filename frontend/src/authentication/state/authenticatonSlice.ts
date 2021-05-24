@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { login, logout } from "./authenticationThunks";
 
 let user = JSON.parse(localStorage.getItem("user") as any);
-const initialState = user ? { loggedIn: true, user } : {};
+const initialState = user ? { loggedIn: true, user: user } : {loggedIn: false, user: null};
 
 const authenticationSlice = createSlice({
   name: "authentication",

@@ -5,8 +5,6 @@ import { useDispatch } from "react-redux";
 import { kanbanBoardUIActions } from "../index";
 import KanbanCard from "./KanbanCard";
 
-import "./KanbanColumn.css";
-
 import { KanbanColumn as KanbanColumnType } from "../../types";
 
 interface KanbanColumnProps {
@@ -24,7 +22,7 @@ const KanbanColumnHeader: React.FC<KanbanColumnHeaderProps> = ({
   children,
 }) => {
   return (
-    <div className="columnHeader">
+    <div className="header">
       {children}
       <h4 className="title">{columnTitle}</h4>
     </div>
@@ -50,7 +48,7 @@ const KanbanColumn: React.FC<KanbanColumnProps> = ({ column, index }) => {
     <Draggable draggableId={"column-" + column.id} index={index}>
       {(provided, snapshot) => (
         <div
-          className={snapshot.isDragging ? "columnDragging" : "column"}
+          className={snapshot.isDragging ? "kanban-column-dragging" : "kanban-column"}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
@@ -61,8 +59,8 @@ const KanbanColumn: React.FC<KanbanColumnProps> = ({ column, index }) => {
               <div
                 className={
                   snapshot.isDraggingOver
-                    ? "taskListOnDraggingOver"
-                    : "taskList"
+                    ? "content-dragging-over"
+                    : "content"
                 }
                 ref={provided.innerRef}
                 {...provided.droppableProps}

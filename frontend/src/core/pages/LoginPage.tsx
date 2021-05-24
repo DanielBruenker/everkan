@@ -3,7 +3,7 @@ import LoginForm from "../../authentication/components/LoginForm";
 
 const LoginPage: React.FC = () => {
   return (
-    <div className="p-grid p-justify-center p-align-center">
+    <div className="p-grid p-justify-center p-align-center login-page">
       <div className="login-form-wrapper">
         <div>
             <h4>Anmelden</h4>
