@@ -32,7 +32,7 @@ public class KanbanColumn {
     private List<KanbanCard> cards = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "board_id", nullable = false)
+    @JoinColumn(name = "board_id", nullable = true)
     @JsonIgnore
     private KanbanBoard board;
 
@@ -90,4 +90,25 @@ public class KanbanColumn {
         cards.add(card);
     }
 
+    public void addCard(KanbanCard newCard, Integer index) {
+        newCard.setColumn(this);
+        if(index < cards.size()){
+            cards.add(index, newCard);
+        } else {
+            cards.add(newCard);
+        }
+        for(int i = 0; i < cards.size(); i++){
+            KanbanCard card = cards.get(i);
+            card.setIndex(i);
+        }
+    }
+
+    public void removeCard(KanbanCard cardToRemove) {
+        cards.remove(cardToRemove);
+        cardToRemove.setColumn(null);
+        for(int i = 0; i < cards.size(); i++){
+            KanbanCard card = cards.get(i);
+            card.setIndex(i);
+        }
+    }
 }

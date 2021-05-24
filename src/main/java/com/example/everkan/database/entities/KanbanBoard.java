@@ -35,7 +35,8 @@ public class KanbanBoard {
     }
 
     public static KanbanBoard creatDefaultBoard() {
-        KanbanCard kanbanCard1 = new KanbanCard("Card 1", "");
+        KanbanCard kanbanCard1 = new KanbanCard("Card 1", "", "");
+
         KanbanColumn column1 = new KanbanColumn("To Do");
         KanbanColumn column2 = new KanbanColumn("In Progress");
         KanbanColumn column3 = new KanbanColumn("Done");
@@ -78,4 +79,25 @@ public class KanbanBoard {
                 .findAny();
     }
 
+    public void removeColumn(KanbanColumn columnToRemove) {
+        columnToRemove.setBoard(null);
+        columns.remove(columnToRemove);
+        for(int i = 0;  i < columns.size(); i++){
+            KanbanColumn column = columns.get(i);
+            column.setIndex(i);
+        }
+    }
+
+    public void addColumn(KanbanColumn newColumn, Integer index) {
+        newColumn.setBoard(this);
+        if(index < columns.size()){
+            columns.add(index, newColumn);
+            for(int i = 0; i < columns.size(); i++){
+                KanbanColumn column = columns.get(i);
+                column.setIndex(i);
+            }
+        } else {
+            addColumn(newColumn);
+        }
+    }
 }

@@ -6,6 +6,7 @@ public class KanbanCardRequest {
     private Long id;
     private String title;
     private String description;
+    private String noteLink;
     private Integer index;
     private Long columnId;
 
@@ -47,5 +48,13 @@ public class KanbanCardRequest {
 
     public void setColumnId(Long columnId) {
         this.columnId = columnId;
+    }
+
+    public String getNoteLink() {
+        return noteLink;
+    }
+
+    public void setNoteLink(String noteLink) {
+        this.noteLink = noteLink;
     }
 }

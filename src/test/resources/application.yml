@@ -6,8 +6,10 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:test
-
+    url: jdbc:h2:mem:testdb
+  h2:
+    console:
+      enabled: true
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -17,9 +19,6 @@ spring:
         format_sql: true
         jdbc:
           time_zone: UTC
-
-    show-sql: true
-
 
   mail:
     host: localhost
